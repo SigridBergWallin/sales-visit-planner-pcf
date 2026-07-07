@@ -1,0 +1,3836 @@
+/* ============================================================
+   SalesVisitPlanner PCF – Fluent UI / D365 Styles
+   ============================================================ */
+
+.svp-root {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    font-size: 0.8125rem;
+    border: 1px solid #e1dfdd;
+    border-radius: 2px;
+    overflow: hidden;
+    background: #f3f2f1;
+    position: relative;
+}
+
+/* ---------- Left panel – visit list ---------- */
+
+.svp-list-panel {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    border-right: none;
+    overflow: hidden;
+    background: #ffffff;
+    height: 100%;
+    position: relative;
+}
+
+.svp-list-header {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.625rem 0.875rem;
+    color: #201f1e;
+    background: #faf9f8;
+    border-bottom: 1px solid #e1dfdd;
+    flex-shrink: 0;
+}
+
+.svp-header-title {
+    font-size: 16px;
+    font-weight: 600;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-header-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.375rem;
+    margin-top: 0.5rem;
+}
+
+.svp-header-loading {
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.svp-header-loading button {
+    cursor: not-allowed;
+}
+
+/* ---------- Journey summary strip ---------- */
+
+.svp-journey-summary {
+    width: 100%;
+    font-size: 0.75rem;
+    font-weight: 400;
+    color: #605e5c;
+    margin-top: 0.125rem;
+    line-height: 1.3;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.svp-working-hours-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 11px;
+    color: #605e5c;
+    padding: 2px 0;
+    line-height: 1.3;
+}
+.svp-wh-edit {
+    color: #0078d4;
+    cursor: pointer;
+    font-size: 11px;
+    text-decoration: none;
+}
+.svp-wh-edit:hover {
+    text-decoration: underline;
+}
+.svp-badge-outside-hours {
+    background: #FFF4CE;
+    color: #835E02;
+    border: 1px solid #F7D25E;
+    border-radius: 2px;
+    font-size: 10px;
+    padding: 1px 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+.svp-optimize-btn {
+    background: #fff;
+    color: #323130;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.svp-optimize-btn:hover:not(:disabled) {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.svp-optimize-btn:disabled {
+    background: #c8c6c4;
+    cursor: default;
+}
+
+.svp-list-body {
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding: 0;
+    margin: 0;
+    list-style: none;
+    min-height: 0;
+}
+
+.svp-list-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #edebe9;
+    cursor: default;
+    transition: background 0.15s;
+}
+
+.svp-list-item:hover {
+    background: #f3f2f1;
+}
+
+.svp-list-num {
+    flex-shrink: 0;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #0078d4;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.svp-list-details {
+    flex: 1;
+    min-width: 0;
+}
+
+.svp-list-subject {
+    font-weight: 600;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-list-time {
+    color: #605e5c;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.svp-list-location {
+    color: #605e5c;
+    font-size: 12px;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-list-warning {
+    color: #d83b01;
+    font-size: 12px;
+    margin-top: 2px;
+}
+
+.svp-list-empty {
+    padding: 24px 14px;
+    text-align: center;
+    color: #8a8886;
+}
+
+.svp-loading {
+    padding: 24px 14px;
+    text-align: center;
+    color: #605e5c;
+}
+
+/* ---------- Right panel – map ---------- */
+
+.svp-map-panel {
+    flex: 1;
+    min-width: 0;
+    position: relative;
+    background: #ffffff;
+    display: none;
+    height: 100%;
+    overflow: hidden;
+}
+
+.svp-map-panel .svp-map {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Numbered marker circles on the map */
+
+.svp-marker-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: #0078d4;
+    color: #fff;
+    font-weight: 700;
+    font-size: 13px;
+    border: 2px solid #fff;
+}
+
+/* Error banner */
+
+.svp-error {
+    padding: 14px;
+    color: #a80000;
+    background: #fde7e9;
+    text-align: center;
+}
+
+/* ---------- Drive info & ETA on cards ---------- */
+
+.svp-drive-info {
+    font-size: 11px;
+    color: #0078d4;
+    margin-top: 4px;
+}
+
+.svp-eta {
+    font-size: 11px;
+    color: #107c10;
+    font-weight: 600;
+    margin-top: 2px;
+}
+
+.svp-list-subtitle {
+    color: #605e5c;
+    font-size: 12px;
+    margin-top: 1px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ---------- Map banner (warning / error / info) ---------- */
+
+.svp-map-banner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1000;
+}
+
+.svp-banner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+.svp-banner-warning {
+    background: #fff4ce;
+    color: #835e02;
+    border-bottom: 1px solid #f7d25e;
+}
+
+.svp-banner-error {
+    background: #fde7e9;
+    color: #a80000;
+    border-bottom: 1px solid #f4a9ae;
+}
+
+.svp-banner-info {
+    background: #f0f6ff;
+    color: #0078d4;
+    border-bottom: 1px solid #cce0ff;
+}
+
+.svp-banner-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: inherit;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+/* ---------- Cancellation banner ---------- */
+
+.cancellation-banner {
+    background: #fde7e9;
+    border-left: 4px solid #a80000;
+    padding: 10px 12px;
+    margin: 8px;
+    border-radius: 2px;
+    font-size: 12px;
+    animation: slideDown 0.3s ease;
+}
+
+.cancellation-banner-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+}
+
+.banner-dismiss {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #605e5c;
+    font-size: 14px;
+    padding: 0 4px;
+    flex-shrink: 0;
+}
+
+/* ---------- Empty state ---------- */
+
+.empty-state {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 200px;
+    color: #605e5c;
+    font-size: 14px;
+    gap: 8px;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-8px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ---------- Card links (Appointment / Opportunity) ---------- */
+
+.svp-card-links {
+    display: flex;
+    gap: 12px;
+    margin-top: 6px;
+    padding-top: 6px;
+    border-top: 1px solid #edebe9;
+    flex-wrap: wrap;
+}
+
+.svp-card-link {
+    font-size: 11px;
+    color: #0078d4;
+    cursor: pointer;
+    text-decoration: underline;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 180px;
+}
+
+.svp-card-link:hover {
+    color: #106ebe;
+}
+
+.svp-no-opportunity {
+    font-size: 11px;
+    color: #8a8886;
+    cursor: default;
+    text-decoration: none !important;
+}
+
+/* ---------- Optimization dialog ---------- */
+
+/* ── Route Optimization Dialog ── */
+.svp-optdlg-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 9999;
+}
+.svp-optdlg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 680px;
+    max-width: 90vw;
+    max-height: 80vh;
+    display: flex;
+    flex-direction: column;
+    background: #fff;
+    border: 1px solid #e1dfdd;
+    border-radius: 2px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    overflow: hidden;
+}
+/* ── Title bar ── */
+.svp-optdlg-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid #e1dfdd;
+    font-weight: 600;
+    font-size: 14px;
+    color: #201f1e;
+    flex-shrink: 0;
+}
+.svp-optdlg-close {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #605e5c;
+    font-size: 16px;
+    padding: 2px;
+}
+/* ── Save banner ── */
+.svp-optdlg-saving {
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    text-align: center;
+    flex-shrink: 0;
+}
+.svp-optdlg-saving-pos {
+    background: #dff6dd;
+    color: #107c10;
+    border-bottom: 1px solid #a9d3a8;
+}
+.svp-optdlg-saving-neutral { background: #f3f2f1; color: #605e5c; border-bottom: 1px solid #e1dfdd; }
+.svp-optdlg-saving-warn { background: #fff4ce; color: #835e02; border-bottom: 1px solid #f7d25e; }
+.svp-optdlg-overrun-warn {
+    padding: 6px 16px;
+    font-size: 12px;
+    color: #835e02;
+    background: #fff4ce;
+    border-bottom: 1px solid #f7d25e;
+    line-height: 1.4;
+}
+.svp-optdlg-reschedule-note {
+    font-size: 11px;
+    color: #605e5c;
+    padding: 6px 12px 4px;
+    text-align: center;
+}
+.svp-optdlg-saving-manual {
+    font-size: 11px;
+    font-weight: 400;
+    color: #605e5c;
+    margin-top: 1px;
+}
+/* ── Mode toggle ── */
+.svp-optdlg-mode-bar { padding: 8px 16px 4px; flex-shrink: 0; }
+.svp-optdlg-mode-group { display: inline-flex; }
+.svp-optdlg-mode-btn {
+    height: 26px;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    border: 1px solid #8a8886;
+    background: #fff;
+    color: #323130;
+    padding: 0 12px;
+    cursor: pointer;
+    border-radius: 0;
+    position: relative;
+}
+.svp-optdlg-mode-btn:first-child { border-radius: 2px 0 0 2px; }
+.svp-optdlg-mode-btn:last-child { border-radius: 0 2px 2px 0; }
+.svp-optdlg-mode-btn + .svp-optdlg-mode-btn { margin-left: -1px; }
+.svp-optdlg-mode-btn.svp-optdlg-mode-btn-active { background: #0078d4; color: #fff; border-color: #0078d4; z-index: 1; }
+.svp-optdlg-mode-desc { font-size: 11px; color: #8a8886; padding: 2px 16px 4px; flex-shrink: 0; }
+/* ── Lock hint (full-width Zone 1) ── */
+.svp-optdlg-lock-hint { font-size: 11px; color: #8a8886; padding: 0 16px 6px; display: flex; align-items: center; gap: 4px; flex-shrink: 0; border-bottom: 1px solid #e1dfdd; }
+/* ── Zone 2: Column headers (fixed, not scrollable) ── */
+.svp-optdlg-hdrs {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    flex-shrink: 0;
+}
+.svp-optdlg-hdr-cell { padding: 10px 12px 6px; }
+.svp-optdlg-hdr-divider { background: #e1dfdd; }
+.svp-optdlg-hdr-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #605e5c;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    margin-bottom: 2px;
+}
+.svp-optdlg-hdr-time {
+    font-size: 16px;
+    font-weight: 600;
+    color: #201f1e;
+    margin-bottom: 6px;
+    line-height: 1;
+}
+.svp-optdlg-hdr-time-opt { color: #107c10; }
+/* ── Column label rows ── */
+.svp-optdlg-colhdr {
+    font-size: 10px;
+    font-weight: 600;
+    color: #8a8886;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    padding-bottom: 4px;
+    border-bottom: 1px solid #e1dfdd;
+}
+.svp-optdlg-colhdr-current { display: grid; grid-template-columns: 28px 1fr 80px; gap: 0 8px; }
+.svp-optdlg-colhdr-opt { display: grid; grid-template-columns: 14px 28px 1fr 80px 64px 20px; gap: 0 6px; }
+.svp-optdlg-colhdr span:nth-child(n+3) { text-align: right; }
+/* ── Zone 3: Lists container ── */
+.svp-optdlg-lists {
+    display: grid;
+    grid-template-columns: 1fr 1px 1fr;
+    flex: 1;
+    min-height: 0;
+    overflow: hidden;
+}
+.svp-optdlg-list-divider { background: #e1dfdd; }
+.svp-optdlg-list-pane {
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 4px 12px;
+    min-height: 0;
+}
+/* ── List items (grid) ── */
+.svp-optdlg-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+}
+.svp-optdlg-item {
+    font-size: 12px;
+    color: #201f1e;
+    padding: 7px 0;
+    border-bottom: 1px solid #f3f2f1;
+    position: relative;
+    transition: background 0.15s;
+}
+.svp-optdlg-item:last-child { border-bottom: none; }
+.svp-optdlg-item:hover { background: #f3f2f1; }
+.svp-optdlg-item.svp-optdlg-item-locked { border-left: 3px solid #0078d4; padding-left: 4px; }
+.svp-optdlg-item.svp-optdlg-item-dragging { opacity: 0.5; border: 1px dashed #0078d4; }
+.svp-optdlg-item.svp-optdlg-item-dragover::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: #0078d4;
+}
+/* Current-order row: badge | name+addr | time */
+.svp-optdlg-item-cur {
+    display: grid;
+    grid-template-columns: 28px 1fr 80px;
+    align-items: center;
+    gap: 0 8px;
+}
+/* Optimized-order row: drag | badge | name+addr | time | score | lock */
+.svp-optdlg-item-opt {
+    display: grid;
+    grid-template-columns: 14px 28px 1fr 80px 64px 20px;
+    align-items: center;
+    gap: 0 6px;
+}
+/* ── Drag handle ── */
+.svp-optdlg-drag {
+    opacity: 0;
+    color: #c8c6c4;
+    font-size: 14px;
+    cursor: grab;
+    user-select: none;
+    line-height: 1;
+    text-align: center;
+    transition: opacity 0.1s;
+}
+.svp-optdlg-item:hover .svp-optdlg-drag { opacity: 1; }
+.svp-optdlg-item.svp-optdlg-item-locked .svp-optdlg-drag { cursor: default; visibility: hidden; }
+/* ── Badge ── */
+.svp-optdlg-badge {
+    width: 22px;
+    height: 22px;
+    min-width: 22px;
+    border-radius: 50%;
+    background: #f3f2f1;
+    color: #605e5c;
+    border: 1px solid #e1dfdd;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 11px;
+    font-weight: 600;
+}
+.svp-optdlg-badge-opt { background: #0078d4; color: #fff; border-color: #0078d4; }
+/* ── Stop info ── */
+.svp-optdlg-stop-info { min-width: 0; }
+.svp-optdlg-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+}
+.svp-optdlg-addr {
+    font-size: 11px;
+    color: #8a8886;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    display: block;
+    margin-top: 1px;
+}
+/* ── Time cell ── */
+.svp-optdlg-time-range {
+    font-size: 11px;
+    color: #605e5c;
+    white-space: nowrap;
+    text-align: right;
+    font-variant-numeric: tabular-nums;
+}
+/* ── Lock icon ── */
+.svp-optdlg-lock {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    line-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.svp-optdlg-lock svg { width: 14px; height: 14px; }
+.svp-optdlg-lock.svp-optdlg-lock-on { /* SVG handles color */ }
+/* ── Score pill ── */
+.svp-optdlg-score-pill {
+    font-size: 10px;
+    color: #605e5c;
+    background: #f3f2f1;
+    border: 1px solid #e1dfdd;
+    border-radius: 2px;
+    padding: 2px 5px;
+    white-space: nowrap;
+    text-align: center;
+    justify-self: end;
+}
+/* ── Re-optimize button ── */
+.svp-optdlg-reopt-btn {
+    display: block;
+    margin: 6px 0;
+    background: #fff;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 26px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #323130;
+}
+.svp-optdlg-reopt-btn:hover { background: #f3f2f1; }
+/* ── Footer ── */
+.svp-optdlg-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 16px;
+    border-top: 1px solid #e1dfdd;
+    flex-shrink: 0;
+    background: #fff;
+}
+.svp-optdlg-actions-left { display: flex; gap: 8px; }
+.svp-optdlg-actions-right { display: flex; gap: 8px; }
+.svp-optdlg-cancel-btn {
+    background: #fff;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 16px;
+    height: 28px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #323130;
+}
+.svp-optdlg-cancel-btn:hover { background: #f3f2f1; border-color: #323130; }
+.svp-optdlg-confirm-btn {
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 0 16px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.svp-optdlg-confirm-btn:disabled { background: #c8c6c4; cursor: default; }
+.svp-optdlg-confirm-btn:hover:not(:disabled) { background: #106ebe; }
+.svp-optdlg-preview-btn {
+    background: #fff;
+    border: 1px solid #0078d4;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 12px;
+    cursor: pointer;
+    color: #0078d4;
+}
+.svp-optdlg-preview-btn:hover { background: #f0f6ff; }
+.svp-optdlg-progress { padding: 16px; text-align: center; font-size: 13px; color: #605e5c; }
+
+/* ---------- Undo bar ---------- */
+
+.svp-undo-bar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    background: #dff6dd;
+    border-bottom: 1px solid #a9d3a8;
+    font-size: 12px;
+    color: #107c10;
+    font-weight: 600;
+    animation: slideDown 0.3s ease;
+}
+
+.svp-undo-btn {
+    background: none;
+    border: 1px solid #107c10;
+    border-radius: 2px;
+    color: #107c10;
+    padding: 0 10px;
+    height: 24px;
+    font-size: 11px;
+    cursor: pointer;
+}
+
+.svp-undo-btn:hover {
+    background: #107c10;
+    color: #fff;
+}
+
+/* ---------- Priority notification banner ---------- */
+
+.priority-notification {
+    margin: 8px;
+    border-radius: 2px;
+    border-left: 4px solid #a80000;
+    background: #fde7e9;
+    animation: slideDown 0.3s ease;
+    overflow: hidden;
+}
+
+.priority-notification-content {
+    padding: 12px;
+}
+
+.priority-notification-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 8px;
+}
+
+.priority-icon { font-size: 16px; }
+
+.priority-title {
+    font-weight: 600;
+    font-size: 13px;
+    color: #a80000;
+    flex: 1;
+}
+
+.priority-dismiss {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #605e5c;
+    font-size: 14px;
+}
+
+.priority-body {
+    font-size: 12px;
+    color: #201f1e;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.priority-actions {
+    display: flex;
+    gap: 8px;
+    justify-content: flex-end;
+}
+
+.priority-ignore-btn {
+    background: #fff;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    cursor: pointer;
+    color: #323130;
+}
+
+.priority-ignore-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.priority-confirm-btn {
+    background: #a80000;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.priority-confirm-btn:hover { background: #8c0000; }
+
+/* ---------- Priority card styles ---------- */
+
+.priority-card-highlight {
+    animation: priorityPulse 1s ease 3;
+}
+
+.priority-card-active .svp-tl-card {
+    border-left: 3px solid #a80000;
+}
+
+.priority-badge {
+    display: inline-block;
+    background: #fde7e9;
+    color: #a80000;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 4px;
+    border: 1px solid #f4a9ae;
+    margin-bottom: 4px;
+    letter-spacing: 0.3px;
+}
+
+@keyframes priorityPulse {
+    0%   { background: #ffffff; }
+    50%  { background: #fde7e9; }
+    100% { background: #ffffff; }
+}
+
+/* ---------- Drive time connectors between cards ---------- */
+
+.drive-connector {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 0 16px;
+    position: relative;
+}
+
+.drive-connector-line {
+    width: 1px;
+    height: 10px;
+    background: #e1dfdd;
+}
+
+.drive-connector-label {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    font-size: 12px;
+    font-weight: 400;
+    padding: 3px 10px;
+    border-radius: 2px;
+    border: 1px solid #edebe9;
+    background: #ffffff;
+    color: #8a8886;
+    white-space: nowrap;
+}
+
+.drive-short {
+    background: #dff6dd;
+    border-color: #a9d3a8;
+    color: #107c10;
+}
+
+.drive-medium {
+    background: #fff4ce;
+    border-color: #f7d25e;
+    color: #835e02;
+}
+
+.drive-long {
+    background: #fde7e9;
+    border-color: #f4a9ae;
+    color: #a80000;
+}
+
+.drive-connector-label.pending {
+    color: #8a8886;
+    font-style: italic;
+    border-style: dashed;
+}
+
+/* ---------- Send Invitations button ---------- */
+
+.send-invitations-btn {
+    background: #fff;
+    color: #323130;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 400;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.send-invitations-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.send-invitations-btn:disabled {
+    background: #f3f2f1;
+    color: #c8c6c4;
+    border-color: #c8c6c4;
+    cursor: default;
+}
+
+/* ---------- Invitation status badges ---------- */
+
+.inv-pill {
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 400;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.inv-not-sent {
+    background: #f3f2f1;
+    color: #605e5c;
+    border: 1px solid #c8c6c4;
+}
+
+.inv-sent {
+    background: #dff6dd;
+    color: #107c10;
+    border: 1px solid #a9d3a8;
+}
+
+.inv-accepted {
+    background: #dff6dd;
+    color: #107c10;
+    border: 1px solid #a9d3a8;
+}
+
+.inv-declined {
+    background: #fde7e9;
+    color: #a80000;
+    border: 1px solid #f4a9ae;
+}
+
+/* ---------- Timeline layout ---------- */
+
+.svp-timeline {
+    position: relative;
+    padding: 8px 0 16px;
+}
+
+.svp-tl-rail {
+    position: absolute;
+    left: 62px;
+    top: 0;
+    bottom: 0;
+    width: 1px;
+    background: #e1dfdd;
+}
+
+/* Every row in the timeline */
+.svp-tl-item {
+    display: flex;
+    align-items: flex-start;
+    position: relative;
+    padding: 0 10px 0 0;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+/* Time label column (left) */
+.svp-tl-time {
+    width: 48px;
+    flex-shrink: 0;
+    font-size: 11px;
+    font-weight: 600;
+    color: #605e5c;
+    text-align: right;
+    padding: 8px 0 0 6px;
+    box-sizing: border-box;
+    line-height: 1;
+}
+
+/* ── Small dot on the rail ── */
+.svp-tl-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    z-index: 1;
+    margin: 10px 10px 0 8px;
+}
+
+.svp-tl-dot-default   { background: #8a8886; }
+.svp-tl-dot-invited   { background: #107c10; }
+.svp-tl-dot-accepted  { background: #107c10; }
+.svp-tl-dot-declined  { background: #a80000; }
+.svp-tl-dot-priority  { background: #8a8886; }
+.svp-tl-dot-gap       { background: #d83b01; }
+
+/* Invisible spacer to keep drive labels aligned */
+.svp-tl-dot-spacer {
+    width: 8px;
+    flex-shrink: 0;
+    margin: 0 10px 0 8px;
+}
+
+/* ── Visit card ── */
+.svp-tl-card {
+    flex: 1;
+    background: #ffffff;
+    border: 1px solid #e1dfdd;
+    border-radius: 2px;
+    padding: 10px 12px;
+    min-width: 0;
+    margin-bottom: 2px;
+    cursor: pointer;
+    transition: background 0.15s;
+    overflow: visible;
+    width: 100%;
+    box-sizing: border-box;
+    height: auto;
+    min-height: 48px;
+}
+
+.svp-tl-card:hover {
+    background: #f3f2f1;
+}
+
+/* ── Collapsed card layout ── */
+.svp-tl-card-collapsed {
+    display: flex;
+    align-items: flex-start;
+    gap: 6px;
+    padding: 8px 10px;
+}
+
+.svp-tl-card-collapsed-main {
+    flex: 1 1 auto;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    overflow: hidden;
+}
+
+/* Header row: title + badges. Badges wrap to next line when crowded. */
+.svp-tl-card-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    flex-wrap: wrap;
+    width: 100%;
+}
+
+.svp-tl-card-header .svp-tl-card-title {
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.svp-tl-card-badges {
+    flex: 0 1 auto;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.svp-tl-card-collapsed-main .svp-tl-card-subtitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.svp-tl-card-collapsed-end {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    flex-shrink: 0;
+    align-self: flex-start;
+    padding-top: 2px;
+}
+
+.svp-tl-chevron {
+    font-size: 12px;
+    color: #605e5c;
+    transition: transform 0.2s ease;
+    display: inline-block;
+}
+
+.svp-tl-card-open .svp-tl-chevron {
+    transform: rotate(90deg);
+}
+
+/* ── Expanded section (hidden by default) ── */
+.svp-tl-card-expanded {
+    display: none;
+    margin-top: 10px;
+    padding-top: 10px;
+    border-top: 1px solid #edebe9;
+    animation: svpExpandIn 0.2s ease;
+}
+
+@keyframes svpExpandIn {
+    from { opacity: 0; transform: translateY(-4px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.svp-tl-card-open .svp-tl-card-expanded {
+    display: block;
+}
+
+.svp-tl-card-open {
+    background: #faf9f8;
+}
+
+/* ── Detail grid (2-column cells) ── */
+.svp-tl-detail-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    gap: 6px 12px;
+    font-size: 11px;
+    margin-bottom: 10px;
+}
+
+.svp-tl-detail-cell {
+    min-width: 0;
+}
+
+.svp-tl-detail-label {
+    color: #605e5c;
+    font-weight: 600;
+    white-space: nowrap;
+    font-size: 11px;
+    margin-bottom: 1px;
+}
+
+.svp-tl-detail-value {
+    color: #201f1e;
+    font-size: 13px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-tl-no-opportunity {
+    font-size: 12px;
+    color: #605e5c;
+    margin-bottom: 10px;
+}
+
+/* ── Action button column ── */
+.svp-tl-action-row {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 8px;
+    margin-top: 12px;
+}
+
+/* Unified action-button look (Fluent).
+   All visit-card action buttons share identical sizing, typography, and
+   shape. Hierarchy is conveyed only by fill colour:
+     - Primary (Check In / Check Out): solid #0078D4
+     - Secondary (Navigate, Open appointment, Open opportunity): outlined
+   The button is full-width and stacks vertically inside .svp-tl-action-row. */
+.svp-tl-action-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 8px;
+    width: 100%;
+    min-height: 44px;
+    padding: 10px 16px;
+    box-sizing: border-box;
+    font-family: "Segoe UI Semibold", "Segoe UI", system-ui, sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 20px;
+    text-align: left;
+    background: #ffffff;
+    color: #0078D4;
+    border: 1px solid #0078D4;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background 0.15s ease, border-color 0.15s ease, color 0.15s ease;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.svp-tl-action-btn:hover {
+    background: #F0F6FF;
+}
+.svp-tl-action-btn:focus-visible {
+    outline: 2px solid #000000;
+    outline-offset: 2px;
+}
+.svp-tl-action-btn:active {
+    background: #E1EEFF;
+}
+
+/* Inline 16x16 SVG icon, left of label */
+.svp-tl-btn-icon {
+    flex: 0 0 16px;
+    width: 16px;
+    height: 16px;
+    display: block;
+}
+.svp-tl-btn-label {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* Primary action: Check In / Check Out (filled blue) */
+.svp-tl-card .svp-tl-btn--primary,
+.svp-tl-card .svp-tl-checkin-btn,
+.svp-tl-card .svp-tl-checkout-btn {
+    background: #0078D4;
+    color: #FFFFFF;
+    border-color: #0078D4;
+}
+.svp-tl-card .svp-tl-btn--primary:hover,
+.svp-tl-card .svp-tl-checkin-btn:hover,
+.svp-tl-card .svp-tl-checkout-btn:hover {
+    background: #106EBE;
+    border-color: #106EBE;
+    color: #FFFFFF;
+}
+.svp-tl-card .svp-tl-btn--primary:active,
+.svp-tl-card .svp-tl-checkin-btn:active,
+.svp-tl-card .svp-tl-checkout-btn:active {
+    background: #005A9E;
+    border-color: #005A9E;
+}
+
+/* Destructive secondary: Remove from plan (kept in same blue family per spec,
+   but the icon hints at deletion) */
+.svp-tl-card .svp-tl-remove-btn {
+    /* inherits the standard outlined .svp-tl-action-btn look */
+}
+
+/* Cancel appointment — destructive action, red accent so it's visually
+   distinct from the neutral "Open …" / "Navigate" buttons. */
+.svp-tl-card .svp-tl-cancel-btn {
+    color: #a4262c;
+    border-color: #f1bbbe;
+    background: #fff;
+}
+.svp-tl-card .svp-tl-cancel-btn:hover {
+    color: #8e1f24;
+    border-color: #a4262c;
+    background: #fdf3f4;
+}
+.svp-tl-card .svp-tl-cancel-btn:active {
+    background: #f9e1e3;
+}
+
+/* Completed visit card — grayed out, kept visible */
+.svp-tl-card.svp-tl-card--completed {
+    background: #f3f2f1;
+    border-color: #e1dfdd;
+    opacity: 0.7;
+}
+.svp-tl-card.svp-tl-card--completed:hover {
+    transform: none;
+    box-shadow: none;
+}
+.svp-tl-card.svp-tl-card--completed .svp-tl-card-title,
+.svp-tl-card.svp-tl-card--completed .svp-tl-card-subtitle,
+.svp-tl-card.svp-tl-card--completed .svp-tl-detail-value,
+.svp-tl-card.svp-tl-card--completed .svp-tl-detail-label {
+    color: #605e5c;
+}
+.svp-tl-card.svp-tl-card--completed::before {
+    background: #c8c6c4 !important;
+}
+.svp-tl-completed-label {
+    display: inline-flex;
+    align-items: center;
+    height: 28px;
+    padding: 0 10px;
+    color: #107c10;
+    font-weight: 600;
+    font-size: 12px;
+}
+
+/* Red dot on the timeline rail when a visit is completed */
+.svp-tl-dot.svp-tl-dot--done {
+    background: #d13438;
+    border: 2px solid #a4262c;
+}
+
+/* In-progress (checked in but not yet checked out) — green to highlight current visit */
+.svp-tl-card.svp-tl-card--inprogress {
+    background: #dff6dd;
+    border-color: #9fd89f;
+}
+.svp-tl-card.svp-tl-card--inprogress::before {
+    background: #107c10 !important;
+}
+.svp-tl-dot.svp-tl-dot--inprogress {
+    background: #107c10;
+    border: 2px solid #0b6a0b;
+    box-shadow: 0 0 0 3px rgba(16, 124, 16, 0.25);
+}
+
+.svp-tl-card-title {
+    font-weight: 600;
+    color: #201f1e;
+    font-size: 13px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1.3;
+}
+
+.svp-tl-card-subtitle {
+    color: #605e5c;
+    font-size: 12px;
+    margin-top: 2px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1.4;
+}
+
+/* ── Drive indicator between visits ── */
+.svp-tl-drive-item {
+    padding: 1px 0;
+    align-items: center;
+}
+
+.svp-tl-drive-item .svp-tl-time {
+    padding-top: 0;
+}
+
+.svp-tl-drive-label {
+    font-size: 0.6875rem;
+    font-weight: 400;
+    color: #8a8886;
+    white-space: nowrap;
+    padding: 2px 0;
+}
+
+.svp-tl-drive-pending {
+    color: #8a8886;
+    font-style: italic;
+}
+
+/* ── Gap slot card ── */
+.svp-tl-gap-item {
+    padding-top: 2px;
+    padding-bottom: 2px;
+}
+
+.svp-tl-gap-card {
+    border: 1px dashed #f7d25e !important;
+    background: rgba(255,244,206,0.2) !important;
+    border-radius: 2px !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.625rem;
+    padding: 0.625rem 0.875rem;
+    cursor: default;
+    flex-wrap: nowrap;
+    min-height: 52px;
+}
+
+.svp-tl-gap-card:hover {
+    background: rgba(255,244,206,0.35) !important;
+}
+
+.svp-tl-gap-content {
+    flex: 1;
+    min-width: 0;
+}
+
+.svp-tl-gap-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #835e02;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1.3;
+}
+
+.svp-tl-gap-hint {
+    font-size: 11px;
+    color: #835e02;
+    margin-top: 2px;
+    white-space: normal;
+    overflow: visible;
+    text-overflow: unset;
+    line-height: 1.3;
+}
+
+.svp-tl-gap-btn {
+    background: #fff;
+    color: #323130;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 14px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+    transition: background 0.15s;
+}
+
+.svp-tl-gap-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+/* ── Working hours boundary markers ── */
+.svp-tl-boundary-item {
+    display: flex;
+    align-items: center;
+    padding: 6px 0;
+    gap: 8px;
+}
+.svp-tl-boundary-time {
+    font-size: 10px !important;
+    color: #8a8886 !important;
+    font-weight: 600;
+    min-width: 44px;
+    text-align: right;
+}
+.svp-tl-boundary-line {
+    flex: 0 0 auto;
+    width: 12px;
+    height: 0;
+    border-top: 1px dashed #c8c6c4;
+}
+.svp-tl-boundary-label {
+    flex: 1;
+    font-size: 10px;
+    color: #8a8886;
+    border-top: 1px dashed #c8c6c4;
+    line-height: 0;
+    padding-top: 0;
+    margin-top: 0;
+    text-align: center;
+}
+
+/* ── Declined visit styling ── */
+.svp-tl-declined {
+    opacity: 0.55;
+}
+
+.svp-tl-declined .svp-tl-card {
+    border-color: #f4a9ae;
+}
+
+/* ── Animate-out for removed cards ── */
+.svp-tl-removing {
+    transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, padding 0.3s ease;
+    opacity: 0;
+    max-height: 0 !important;
+    margin-top: 0 !important;
+    margin-bottom: 0 !important;
+    padding-top: 0 !important;
+    padding-bottom: 0 !important;
+    overflow: hidden;
+}
+
+/* ── Priority visit on timeline ── */
+.svp-tl-visit-item.priority-card-active .svp-tl-card {
+    border-left: 3px solid #a80000;
+}
+
+.svp-tl-visit-item.priority-card-highlight .svp-tl-card {
+    animation: priorityPulse 1s ease 3;
+}
+
+/* ── Opportunity Picker Panel ── */
+.svp-opp-picker {
+    /* position:relative + z-index ensures this panel paints above the
+       absolutely-positioned timeline rail (.svp-tl-rail) — otherwise the
+       vertical rail line cuts through the opportunity cards. */
+    position: relative;
+    z-index: 1;
+    margin: 4px 0 4px 70px;
+    background: #ffffff;
+    border: 1px solid #e1dfdd;
+    border-radius: 2px;
+    overflow: hidden;
+    animation: svpSlideIn 0.25s ease;
+    max-width: calc(100% - 74px);
+    box-sizing: border-box;
+}
+
+@keyframes svpSlideIn {
+    from { opacity: 0; transform: translateY(-8px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.svp-opp-picker-loading {
+    padding: 12px 16px;
+    color: #605e5c;
+}
+
+.svp-opp-picker-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 14px;
+    background: #faf9f8;
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    border-bottom: 1px solid #e1dfdd;
+}
+
+.svp-opp-picker-close {
+    background: none;
+    border: none;
+    font-size: 14px;
+    cursor: pointer;
+    color: #605e5c;
+    padding: 2px 6px;
+    border-radius: 2px;
+}
+
+.svp-opp-picker-close:hover {
+    background: #f3f2f1;
+}
+
+.svp-opp-picker-body {
+    max-height: 340px;
+    overflow-y: auto;
+    padding: 6px;
+}
+
+/* ── Opportunity Card ── */
+.svp-opp-card {
+    padding: 10px 12px;
+    margin: 4px 0;
+    border: 1px solid #e1dfdd;
+    border-radius: 2px;
+    background: #fff;
+    cursor: pointer;
+    transition: border-color 0.15s;
+}
+
+.svp-opp-card:hover {
+    border-color: #c8c6c4;
+}
+
+.svp-opp-card-selected {
+    border: 2px solid #0078d4 !important;
+    background: #f0f6ff !important;
+}
+
+.svp-opp-card-row1 {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 4px;
+}
+
+.svp-opp-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    flex: 1;
+    min-width: 0;
+}
+
+.svp-opp-prio {
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 6px;
+    border-radius: 2px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+}
+
+.svp-opp-prio-high {
+    background: #fde7e9;
+    color: #a80000;
+    border: 1px solid #f4a9ae;
+}
+
+.svp-opp-prio-medium {
+    background: #fff4ce;
+    color: #835e02;
+    border: 1px solid #f7d25e;
+}
+
+.svp-opp-card-row2 {
+    font-size: 12px;
+    color: #605e5c;
+    margin-bottom: 6px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Opportunity detail grid (2×2) ── */
+.svp-opp-detail-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4px 12px;
+    margin-top: 4px;
+}
+
+.svp-opp-detail-cell {
+    min-width: 0;
+}
+
+.svp-opp-detail-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #605e5c;
+    white-space: nowrap;
+}
+
+.svp-opp-detail-value {
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Add to plan button ── */
+.svp-opp-add-btn {
+    margin-top: 8px;
+    width: 100%;
+    padding: 0;
+    height: 28px;
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.svp-opp-add-btn:hover {
+    background: #106ebe;
+}
+
+.svp-opp-add-btn:disabled {
+    background: #c8c6c4;
+    cursor: not-allowed;
+}
+
+/* ── Open opportunity link ── */
+.svp-opp-open-link {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 12px;
+    color: #0078d4;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.svp-opp-open-link:hover {
+    text-decoration: underline;
+}
+
+/* ══════════════════════════════════════════════════════
+   INVITATION PANEL OVERLAY
+   ══════════════════════════════════════════════════════ */
+
+.svp-inv-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.4);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: svpFadeIn 0.15s ease;
+}
+
+@keyframes svpFadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.svp-inv-panel {
+    background: #fff;
+    border-radius: 2px;
+    width: 520px;
+    max-width: 95%;
+    max-height: 90%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.svp-inv-panel-inner {
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    max-height: 80vh;
+}
+
+.svp-inv-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 20px;
+    background: #faf9f8;
+    border-bottom: 1px solid #e1dfdd;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+    isolation: isolate;
+}
+
+.svp-inv-header-title {
+    font-size: 14px;
+    font-weight: 600;
+    color: #201f1e;
+}
+
+/* Hide any stray D365-injected elements inside the invitation panel */
+.svp-inv-panel img,
+.svp-inv-header > :not(.svp-inv-header-title):not(.svp-inv-close) {
+    display: none !important;
+}
+
+.svp-inv-close {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    color: #605e5c;
+    padding: 4px 8px;
+    border-radius: 2px;
+}
+
+.svp-inv-close:hover {
+    background: #f3f2f1;
+}
+
+.svp-inv-body {
+    overflow-y: auto;
+    padding: 0;
+    flex: 1;
+}
+
+.svp-inv-loading {
+    padding: 40px 20px;
+    text-align: center;
+    color: #8a8886;
+    font-size: 13px;
+}
+
+/* ── Sections ── */
+.svp-inv-section {
+    padding: 16px 20px;
+    border-bottom: 1px solid #edebe9;
+}
+
+.svp-inv-section-title {
+    font-size: 12px;
+    font-weight: 600;
+    color: #8a8886;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 10px;
+}
+
+/* ── Recipients list ── */
+.svp-inv-recipients-list {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    max-height: 240px;
+    overflow-y: auto;
+}
+
+.svp-inv-recipient {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 10px;
+    border-radius: 2px;
+    transition: background 0.1s;
+}
+
+.svp-inv-recipient:hover {
+    background: #f3f2f1;
+}
+
+.svp-inv-check {
+    width: 16px;
+    height: 16px;
+    flex-shrink: 0;
+    cursor: pointer;
+    accent-color: #0078d4;
+}
+
+.svp-inv-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.svp-inv-recipient-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.svp-inv-account-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-inv-contact-line {
+    font-size: 11px;
+    color: #605e5c;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-inv-add-email {
+    color: #0078d4;
+    cursor: pointer;
+    text-decoration: underline;
+    font-size: 11px;
+}
+
+.svp-inv-add-email:hover {
+    color: #106ebe;
+}
+
+.svp-inv-no-contact {
+    color: #8a8886;
+    font-style: italic;
+}
+
+/* ── Status badges ── */
+.svp-inv-badge {
+    font-size: 11px;
+    font-weight: 400;
+    padding: 2px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.svp-inv-badge-ready {
+    background: #dff6dd;
+    color: #107c10;
+    border: 1px solid #a9d3a8;
+}
+
+.svp-inv-badge-noemail {
+    background: #fde7e9;
+    color: #a80000;
+    border: 1px solid #f4a9ae;
+}
+
+.svp-inv-badge-sent {
+    background: #f3f2f1;
+    color: #605e5c;
+    border: 1px solid #c8c6c4;
+}
+
+/* ── Recipient wrapper & edit button ── */
+.svp-inv-recipient-wrapper {
+    display: flex;
+    flex-direction: column;
+}
+
+.svp-inv-row-edit {
+    flex-shrink: 0;
+    background: transparent;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    width: 28px;
+    height: 28px;
+    font-size: 13px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 4px;
+    transition: background 0.1s;
+}
+
+.svp-inv-row-edit:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+/* ── Inline edit panel ── */
+.svp-inv-inline-edit {
+    padding: 10px 10px 10px 58px;
+    background: #faf9f8;
+    border-top: 1px solid #edebe9;
+    animation: svpFadeIn 0.15s ease-out;
+}
+
+.svp-inv-ie-section {
+    margin-bottom: 8px;
+}
+
+.svp-inv-ie-label {
+    font-size: 11px;
+    font-weight: 600;
+    color: #605e5c;
+    display: block;
+    margin-bottom: 4px;
+}
+
+.svp-inv-ie-search {
+    width: 100%;
+    padding: 0 10px;
+    height: 28px;
+    font-size: 13px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.svp-inv-ie-search:focus {
+    border-color: #0078d4;
+    box-shadow: 0 0 0 1px #0078d4;
+}
+
+.svp-inv-ie-results {
+    max-height: 140px;
+    overflow-y: auto;
+    margin-top: 4px;
+}
+
+.svp-inv-ie-result {
+    padding: 6px 10px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.1s;
+}
+
+.svp-inv-ie-result:hover {
+    background: #f3f2f1;
+}
+
+.svp-inv-ie-result-name {
+    font-size: 12px;
+    font-weight: 600;
+    color: #201f1e;
+}
+
+.svp-inv-ie-result-email {
+    font-size: 11px;
+    color: #605e5c;
+}
+
+.svp-inv-ie-searching,
+.svp-inv-ie-no-results {
+    font-size: 11px;
+    color: #8a8886;
+    padding: 6px 10px;
+    font-style: italic;
+}
+
+.svp-inv-ie-divider {
+    text-align: center;
+    font-size: 11px;
+    color: #8a8886;
+    margin: 6px 0;
+    position: relative;
+}
+
+.svp-inv-ie-divider::before,
+.svp-inv-ie-divider::after {
+    content: "";
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 1px;
+    background: #edebe9;
+}
+
+.svp-inv-ie-divider::before {
+    left: 0;
+}
+
+.svp-inv-ie-divider::after {
+    right: 0;
+}
+
+.svp-inv-ie-email-row {
+    display: flex;
+    gap: 6px;
+}
+
+.svp-inv-ie-email {
+    flex: 1;
+    padding: 0 10px;
+    height: 28px;
+    font-size: 13px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    box-sizing: border-box;
+    outline: none;
+}
+
+.svp-inv-ie-email:focus {
+    border-color: #0078d4;
+    box-shadow: 0 0 0 1px #0078d4;
+}
+
+.svp-inv-ie-apply {
+    padding: 0 14px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.svp-inv-ie-apply:hover {
+    background: #106ebe;
+}
+
+.svp-inv-ie-apply:disabled {
+    background: #c8c6c4;
+    cursor: not-allowed;
+}
+
+.svp-inv-ie-hint {
+    font-size: 11px;
+    color: #605e5c;
+    margin-top: 6px;
+}
+
+.svp-inv-ie-d365link {
+    color: #0078d4;
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.svp-inv-ie-d365link:hover {
+    color: #106ebe;
+}
+
+/* ── Preview ── */
+.svp-inv-preview-subject {
+    font-size: 12px;
+    font-weight: 600;
+    color: #201f1e;
+    margin-bottom: 8px;
+    padding: 8px 12px;
+    background: #faf9f8;
+    border-radius: 2px;
+    border: 1px solid #edebe9;
+}
+
+.svp-inv-preview-body {
+    font-size: 12px;
+    color: #201f1e;
+    line-height: 1.6;
+    padding: 12px;
+    background: #faf9f8;
+    border-radius: 2px;
+    border: 1px solid #edebe9;
+    max-height: 180px;
+    overflow-y: auto;
+}
+
+.svp-inv-edit-btn {
+    margin-top: 8px;
+    background: #fff;
+    border: 1px solid #8a8886;
+    color: #323130;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.svp-inv-edit-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.svp-inv-edit-area {
+    width: 100%;
+    min-height: 160px;
+    margin-top: 8px;
+    padding: 10px 12px;
+    font-size: 13px;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+    line-height: 1.5;
+    border: 1px solid #0078d4;
+    border-radius: 2px;
+    resize: vertical;
+    box-sizing: border-box;
+}
+
+/* ── Summary row ── */
+.svp-inv-summary {
+    display: flex;
+    gap: 12px;
+    padding: 12px 20px;
+    border-bottom: 1px solid #edebe9;
+    flex-wrap: wrap;
+}
+
+.svp-inv-summary-item {
+    font-size: 12px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 4px;
+}
+
+/* ── Footer ── */
+.svp-inv-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 14px 20px;
+    flex-shrink: 0;
+}
+
+.svp-inv-cancel-btn {
+    background: #fff;
+    border: 1px solid #8a8886;
+    color: #323130;
+    padding: 0 20px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.svp-inv-cancel-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.svp-inv-send-btn {
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    padding: 0 24px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.svp-inv-send-btn:hover {
+    background: #106ebe;
+}
+
+.svp-inv-send-btn:disabled {
+    background: #c8c6c4;
+    cursor: not-allowed;
+}
+
+.svp-inv-resend-row-btn {
+    background: #fff;
+    border: 1px solid #8a8886;
+    color: #323130;
+    padding: 0 8px;
+    height: 24px;
+    font-size: 11px;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: background 0.1s;
+}
+
+.svp-inv-resend-row-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.svp-inv-badge-resend {
+    background: #fff4ce;
+    color: #835e02;
+    border: 1px solid #f7d25e;
+}
+
+.svp-inv-badge-resent {
+    background: #dff6dd;
+    color: #107c10;
+    border: 1px solid #a9d3a8;
+    transition: opacity 0.3s;
+}
+
+/* ── Confirmation ── */
+.svp-inv-confirmation {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+    text-align: center;
+}
+
+.svp-inv-confirmation-icon {
+    font-size: 48px;
+    margin-bottom: 12px;
+}
+
+.svp-inv-confirmation-title {
+    font-size: 18px;
+    font-weight: 600;
+    color: #201f1e;
+    margin-bottom: 6px;
+}
+
+.svp-inv-confirmation-subtitle {
+    font-size: 13px;
+    color: #605e5c;
+    margin-bottom: 20px;
+}
+
+.svp-inv-done-btn {
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    padding: 0 32px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    border-radius: 2px;
+    cursor: pointer;
+}
+
+.svp-inv-done-btn:hover {
+    background: #106ebe;
+}
+
+/* ============================================================
+   RESPONSIVE LAYOUT BREAKPOINTS
+   Applied via ResizeObserver on .svp-root:
+     < 520px  → .layout-narrow  (single column, no map)
+     >= 520px → .layout-wide    (split: list + map)
+   ============================================================ */
+
+/* ── NARROW (< 520px) ── single column, no map ── */
+
+.layout-narrow .svp-list-panel {
+    width: 100%;
+    border-right: none;
+}
+
+.layout-narrow .svp-map-panel {
+    display: none;
+}
+
+.layout-narrow .svp-list-header {
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.layout-narrow .svp-header-title {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    white-space: normal;
+}
+
+.layout-narrow .svp-journey-summary {
+    white-space: normal;
+}
+
+.layout-narrow .svp-header-actions {
+    margin-top: 0.5rem;
+}
+
+.layout-narrow .svp-tl-drive-label {
+    font-size: 0.6875rem;
+}
+
+.layout-narrow .svp-tl-detail-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.layout-narrow .svp-opp-picker {
+    margin-left: 0;
+    margin-right: 0;
+    border-radius: 0;
+    max-width: 100%;
+}
+
+.layout-narrow .svp-opp-detail-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+.layout-narrow .svp-tl-gap-card {
+    flex-wrap: wrap;
+}
+
+.layout-narrow .svp-tl-gap-btn {
+    width: 100%;
+    text-align: center;
+}
+
+.layout-narrow .svp-pp-search-row {
+    flex-direction: column;
+}
+
+.layout-narrow .svp-pp-city-ac {
+    width: 100%;
+}
+
+.layout-narrow .svp-pp-search-input {
+    width: 100%;
+}
+
+.layout-narrow .svp-pp-search-btn {
+    width: 100%;
+}
+
+/* ── WIDE (>= 520px) ── split panel: list + map ── */
+
+.layout-wide .svp-list-panel {
+    width: 320px;
+    min-width: 280px;
+    max-width: 360px;
+    flex-shrink: 0;
+    border-right: 1px solid #e1dfdd;
+}
+
+.layout-wide .svp-map-panel {
+    display: block;
+    flex: 1;
+    min-width: 0;
+}
+
+.layout-wide .svp-list-header {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.25rem 0.5rem;
+}
+
+.layout-wide .svp-header-title {
+    white-space: nowrap;
+    flex-shrink: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.layout-wide .svp-journey-summary {
+    order: 3;
+    width: 100%;
+    white-space: nowrap;
+}
+
+.layout-wide .svp-header-actions {
+    margin-top: 0;
+    flex-shrink: 1;
+    flex-wrap: wrap;
+    order: 2;
+    width: 100%;
+}
+
+.layout-wide .svp-tl-drive-label {
+    font-size: 0.75rem;
+}
+
+.layout-wide .svp-tl-detail-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+}
+
+.layout-wide .svp-opp-picker {
+    margin-left: 0;
+    max-width: 100%;
+}
+
+.layout-wide .svp-opp-picker-body {
+    max-height: 400px;
+}
+
+.layout-wide .svp-opp-detail-grid {
+    grid-template-columns: 1fr 1fr;
+}
+
+.layout-wide .svp-tl-gap-card {
+    flex-wrap: nowrap;
+}
+
+.layout-wide .svp-tl-gap-btn {
+    width: auto;
+}
+
+/* ── Badge/chevron never shrink ── */
+.svp-tl-chevron {
+    flex-shrink: 0;
+}
+
+.priority-badge {
+    flex-shrink: 0;
+}
+
+/* ═══════════════════════════════════════════════════════
+   PROSPECT FINDER PANEL
+   ═══════════════════════════════════════════════════════ */
+
+.svp-prospect-btn {
+    background: #fff;
+    color: #323130;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 400;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.svp-prospect-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+/* ═══════════════════════════════════════════════════
+   MAP-FIRST PROSPECT SEARCH — Floating overlay + popups
+   ═══════════════════════════════════════════════════ */
+
+/* ── Floating search overlay on map ── */
+.svp-ms-overlay {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    right: 12px;
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.svp-ms-overlay > * {
+    pointer-events: auto;
+}
+
+/* Search bar row */
+.svp-ms-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+    padding: 6px 8px;
+}
+
+.svp-ms-close {
+    background: none;
+    border: none;
+    font-size: 18px;
+    color: #605e5c;
+    cursor: pointer;
+    padding: 2px 4px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.svp-ms-close:hover {
+    background: #f3f2f1;
+    color: #201f1e;
+}
+
+/* City autocomplete in overlay */
+.svp-ms-city-ac {
+    position: relative;
+    flex-shrink: 0;
+    width: 170px;
+}
+
+.svp-ms-city-pill {
+    display: flex;
+    align-items: center;
+    height: 36px;
+    border: 1px solid #8a8886;
+    border-radius: 18px;
+    background: #ffffff;
+    padding: 0 10px;
+    gap: 6px;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+}
+
+.svp-ms-city-pill.svp-ms-city-confirmed {
+    border-color: #107c10;
+}
+
+.svp-ms-city-pill.svp-ms-city-invalid {
+    border-color: #a80000;
+}
+
+.svp-ms-city-icon {
+    font-size: 13px;
+    color: #605e5c;
+    flex-shrink: 0;
+    line-height: 1;
+}
+
+.svp-ms-city-confirmed .svp-ms-city-icon {
+    color: #107c10;
+}
+
+.svp-ms-city-input {
+    flex: 1;
+    border: none;
+    outline: none;
+    font-size: 13px;
+    font-family: "Segoe UI", sans-serif;
+    color: #201f1e;
+    background: transparent;
+    min-width: 0;
+}
+
+.svp-ms-city-input::placeholder {
+    color: #a19f9d;
+}
+
+.svp-ms-city-clear {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 15px;
+    color: #605e5c;
+    padding: 0;
+    line-height: 1;
+    flex-shrink: 0;
+    display: none;
+}
+
+.svp-ms-city-clear.svp-ms-city-clear-visible {
+    display: block;
+}
+
+.svp-ms-city-clear:hover {
+    color: #201f1e;
+}
+
+.svp-ms-city-error {
+    font-size: 11px;
+    color: #a80000;
+    margin-top: 4px;
+    padding-left: 10px;
+    min-height: 0;
+}
+
+/* City suggestions dropdown (inside map overlay) */
+.svp-ms-city-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 4px);
+    left: 0;
+    right: 0;
+    min-width: 240px;
+    background: #ffffff;
+    border: 1px solid #e1dfdd;
+    border-radius: 8px;
+    z-index: 100;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+    overflow: hidden;
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.svp-ms-city-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 14px;
+    min-height: 44px;
+    border-bottom: 1px solid #f3f2f1;
+    cursor: pointer;
+    background: #ffffff;
+    transition: background 0.1s;
+}
+
+.svp-ms-city-item:last-child {
+    border-bottom: none;
+}
+
+.svp-ms-city-item:hover,
+.svp-ms-city-item.svp-ms-city-highlight {
+    background: #f3f2f1;
+}
+
+.svp-ms-city-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    background: #f3f2f1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    font-size: 14px;
+}
+
+.svp-ms-city-info {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+}
+
+.svp-ms-city-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-ms-city-country {
+    font-size: 11px;
+    color: #8a8886;
+    margin-top: 1px;
+}
+
+.svp-ms-city-none,
+.svp-ms-city-loading {
+    justify-content: center;
+    color: #8a8886;
+    font-size: 12px;
+    cursor: default;
+    min-height: 40px;
+    padding: 10px 14px;
+}
+
+.svp-ms-city-none:hover,
+.svp-ms-city-loading:hover {
+    background: transparent;
+}
+
+/* Search term input */
+.svp-ms-input {
+    flex: 1;
+    height: 36px;
+    border: 1px solid #e1dfdd;
+    border-radius: 4px;
+    font-size: 13px;
+    font-family: "Segoe UI", sans-serif;
+    padding: 0 10px;
+    box-sizing: border-box;
+    outline: none;
+    min-width: 100px;
+}
+
+.svp-ms-input:focus {
+    border-color: #0078d4;
+}
+
+/* Search button */
+.svp-ms-btn {
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 0 14px;
+    height: 36px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
+
+.svp-ms-btn:hover {
+    background: #106ebe;
+}
+
+/* Secondary controls row (radius + mode toggle) */
+.svp-ms-controls {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.svp-ms-radius {
+    height: 30px;
+    border: 1px solid #e1dfdd;
+    border-radius: 4px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    padding: 0 6px;
+    background: #fff;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+
+.svp-ms-mode-toggle {
+    display: flex;
+    gap: 0;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.svp-ms-mode-btn {
+    height: 30px;
+    padding: 0 12px;
+    border: 1px solid #e1dfdd;
+    background: #fff;
+    color: #323130;
+    font-size: 11px;
+    font-weight: 600;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    transition: all 0.15s;
+    white-space: nowrap;
+}
+
+.svp-ms-mode-btn:first-child {
+    border-radius: 4px 0 0 4px;
+    border-right: none;
+}
+
+.svp-ms-mode-btn:last-child {
+    border-radius: 0 4px 4px 0;
+}
+
+.svp-ms-mode-btn:hover {
+    background: #f3f2f1;
+}
+
+.svp-ms-mode-btn-active {
+    background: #0078d4;
+    color: #fff;
+    border-color: #0078d4;
+}
+
+.svp-ms-mode-btn-active:hover {
+    background: #106ebe;
+    border-color: #106ebe;
+    color: #fff;
+}
+
+/* Quick-chips */
+.svp-ms-chips {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+}
+
+.svp-ms-chip {
+    background: #fff;
+    color: #323130;
+    border: 1px solid #e1dfdd;
+    border-radius: 16px;
+    padding: 4px 12px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: all 0.15s;
+}
+
+.svp-ms-chip:hover {
+    border-color: #0078d4;
+    color: #0078d4;
+    background: #f0f6ff;
+}
+
+/* Searching spinner overlay on map */
+.svp-ms-searching {
+    align-self: center;
+    background: #fff;
+    border-radius: 20px;
+    padding: 6px 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-size: 13px;
+    color: #605e5c;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+/* ── Bottom overlays on map ── */
+.svp-ms-count {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    z-index: 20;
+    background: #fff;
+    border-radius: 20px;
+    padding: 6px 16px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    font-family: "Segoe UI", sans-serif;
+    display: none;
+}
+
+.svp-ms-legend {
+    position: absolute;
+    bottom: 12px;
+    right: 12px;
+    z-index: 20;
+    background: #fff;
+    border-radius: 8px;
+    padding: 8px 14px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    display: none;
+    gap: 10px;
+    font-size: 11px;
+    color: #605e5c;
+    font-family: "Segoe UI", sans-serif;
+}
+
+.svp-ms-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+}
+
+.svp-ms-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    flex-shrink: 0;
+}
+
+/* ── Atlas Popup card styling ── */
+
+/* Override Azure Maps popup container width */
+.atlas-popup-content-container {
+    width: 260px !important;
+    max-width: 260px !important;
+    min-width: 260px !important;
+}
+
+.svp-popup {
+    width: 240px;
+    max-width: 240px;
+    box-sizing: border-box;
+    overflow: hidden;
+    font-family: "Segoe UI", sans-serif;
+    padding: 0;
+    position: relative;
+}
+
+.svp-popup-header {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    padding: 12px 12px 8px;
+}
+
+.svp-popup-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 3px;
+}
+
+.svp-popup-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.svp-popup-name {
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.3;
+    margin-bottom: 2px;
+    padding-right: 20px;
+}
+
+.svp-popup-addr {
+    font-size: 11px;
+    color: #605e5c;
+    white-space: normal;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+    line-height: 1.4;
+    margin-bottom: 6px;
+}
+
+.svp-popup-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: #8a8886;
+    margin-bottom: 6px;
+    white-space: nowrap;
+}
+
+.svp-popup-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    padding: 4px 12px 8px;
+}
+
+.svp-popup-tag {
+    display: inline-block;
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 4px;
+    white-space: nowrap;
+}
+
+.svp-popup-tag-amber { background: #fff4ce; color: #835e02; }
+.svp-popup-tag-gray  { background: #f3f2f1; color: #605e5c; }
+.svp-popup-tag-red   { background: #fde7e9; color: #a80000; }
+.svp-popup-tag-green { background: #dff6dd; color: #107c10; }
+.svp-popup-tag-buyer { background: #e1dfdd; color: #323130; }
+
+.svp-popup-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    padding: 8px 12px 12px;
+    border-top: 1px solid #edebe9;
+    margin-top: 8px;
+}
+
+.svp-popup-btn {
+    width: 100%;
+    height: 28px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    border-radius: 2px;
+    cursor: pointer;
+    box-sizing: border-box;
+    font-weight: 600;
+    white-space: nowrap;
+    border: none;
+    padding: 0 12px;
+}
+
+.svp-popup-btn-primary {
+    background: #0078d4;
+    color: #fff;
+}
+
+.svp-popup-btn-primary:hover {
+    background: #106ebe;
+}
+
+.svp-popup-btn-secondary {
+    background: #fff;
+    color: #323130;
+    border: 1px solid #8a8886;
+}
+
+.svp-popup-btn-secondary:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+.svp-popup-btn:disabled {
+    background: #c8c6c4;
+    color: #fff;
+    cursor: default;
+    border: none;
+}
+
+.svp-popup-link {
+    font-size: 12px;
+    color: #0078d4;
+    cursor: pointer;
+    text-decoration: none;
+    padding: 4px 0;
+    display: inline-block;
+    background: none;
+    border: none;
+    font-family: "Segoe UI", sans-serif;
+    text-align: left;
+}
+
+.svp-popup-link:hover {
+    text-decoration: underline;
+}
+
+.svp-popup-close {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    background: none;
+    border: none;
+    font-size: 16px;
+    color: #605e5c;
+    cursor: pointer;
+    line-height: 1;
+    padding: 0;
+    width: 20px;
+    height: 20px;
+}
+
+/* ── Spinner (shared) ── */
+.svp-spinner {
+    width: 16px;
+    height: 16px;
+    border: 2px solid #c8c6c4;
+    border-top-color: #0078d4;
+    border-radius: 50%;
+    animation: svpSpin 0.8s linear infinite;
+}
+
+@keyframes svpSpin {
+    to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════
+   TERRITORY INSIGHTS — View mode styles
+   ═══════════════════════════════════════════════════ */
+
+/* Territory Insights button in header */
+.svp-territory-btn {
+    background: #fff;
+    color: #323130;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 400;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s, border-color 0.15s;
+}
+
+.svp-territory-btn:hover {
+    background: #f3f2f1;
+    border-color: #323130;
+}
+
+/* Back button */
+.svp-territory-back-btn {
+    background: none;
+    color: #0078d4;
+    border: 1px solid #0078d4;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.svp-territory-back-btn:hover {
+    background: #f0f6ff;
+}
+
+/* Stats strip */
+.svp-territory-stats {
+    display: flex;
+    gap: 12px;
+    padding: 8px 14px;
+    background: #faf9f8;
+    border-bottom: 1px solid #edebe9;
+    font-size: 12px;
+    color: #605e5c;
+}
+
+.svp-territory-stat {
+    white-space: nowrap;
+}
+
+.svp-territory-stat-warn {
+    color: #d13438;
+    font-weight: 600;
+}
+
+/* Toolbar: filters + sort */
+.svp-territory-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 14px;
+    background: #ffffff;
+    border-bottom: 1px solid #edebe9;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.svp-territory-filters {
+    display: flex;
+    gap: 4px;
+    flex-wrap: wrap;
+}
+
+.svp-territory-chip {
+    background: #f3f2f1;
+    color: #323130;
+    border: 1px solid #e1dfdd;
+    border-radius: 12px;
+    padding: 2px 10px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, border-color 0.15s;
+}
+
+.svp-territory-chip:hover {
+    background: #e1dfdd;
+}
+
+.svp-territory-chip-active {
+    background: #0078d4;
+    color: #fff;
+    border-color: #0078d4;
+}
+
+.svp-territory-chip-active:hover {
+    background: #106ebe;
+    border-color: #106ebe;
+}
+
+.svp-territory-sort-select {
+    height: 28px;
+    border: 1px solid #e1dfdd;
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    padding: 0 6px;
+    color: #323130;
+    background: #fff;
+    cursor: pointer;
+}
+
+/* Account list */
+.svp-territory-list {
+    overflow-y: auto;
+    flex: 1;
+}
+
+.svp-territory-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 14px;
+    border-bottom: 1px solid #edebe9;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.svp-territory-row:hover {
+    background: #f3f2f1;
+}
+
+.svp-territory-row-selected {
+    background: #f0f6ff;
+}
+
+.svp-territory-row-selected:hover {
+    background: #deecf9;
+}
+
+.svp-territory-check {
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+}
+
+.svp-territory-cb {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+    accent-color: #0078d4;
+}
+
+.svp-territory-dot {
+    flex-shrink: 0;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+}
+
+.svp-territory-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.svp-territory-name {
+    font-weight: 600;
+    font-size: 13px;
+    color: #201f1e;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-territory-meta {
+    font-size: 12px;
+    color: #605e5c;
+    margin-top: 2px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.svp-territory-opp {
+    font-size: 12px;
+    color: #0078d4;
+    margin-top: 1px;
+}
+
+/* Bulk action bar */
+.svp-territory-bulk {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px;
+    background: #deecf9;
+    border-top: 1px solid #c8c6c4;
+    position: sticky;
+    bottom: 0;
+}
+
+.svp-territory-bulk-visible {
+    display: flex;
+}
+
+.svp-territory-bulk-count {
+    font-size: 13px;
+    font-weight: 600;
+    color: #201f1e;
+    flex: 1;
+}
+
+.svp-territory-add-btn {
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 0 12px;
+    height: 28px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.svp-territory-add-btn:hover:not(:disabled) {
+    background: #106ebe;
+}
+
+.svp-territory-add-btn:disabled {
+    background: #c8c6c4;
+    cursor: default;
+}
+
+.svp-territory-clear-btn {
+    background: none;
+    color: #323130;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    padding: 0 10px;
+    height: 28px;
+    font-size: 13px;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.svp-territory-clear-btn:hover {
+    background: #f3f2f1;
+}
+
+/* Map legend */
+.svp-territory-legend {
+    position: absolute;
+    bottom: 12px;
+    left: 12px;
+    background: rgba(255,255,255,0.95);
+    border-radius: 4px;
+    padding: 8px 12px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.15);
+    z-index: 10;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.svp-territory-legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    color: #323130;
+}
+
+.svp-territory-legend-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Territory popup (on map pin click) */
+.svp-territory-popup {
+    font-family: "Segoe UI", sans-serif;
+    font-size: 13px;
+    min-width: 200px;
+    max-width: 280px;
+}
+
+.svp-territory-popup-header {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #edebe9;
+}
+
+.svp-territory-popup-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.svp-territory-popup-body {
+    padding: 8px 12px;
+    font-size: 12px;
+    color: #605e5c;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+}
+
+.svp-territory-popup-actions {
+    display: flex;
+    gap: 6px;
+    padding: 8px 12px;
+    border-top: 1px solid #edebe9;
+}
+
+.svp-territory-popup-add {
+    background: #0078d4;
+    color: #fff;
+    border: none;
+    border-radius: 2px;
+    padding: 0 10px;
+    height: 26px;
+    font-size: 12px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.svp-territory-popup-add:hover {
+    background: #106ebe;
+}
+
+.svp-territory-popup-open {
+    background: none;
+    color: #0078d4;
+    border: 1px solid #0078d4;
+    border-radius: 2px;
+    padding: 0 10px;
+    height: 26px;
+    font-size: 12px;
+    cursor: pointer;
+}
+
+.svp-territory-popup-open:hover {
+    background: #f0f6ff;
+}
+
+/* ── Territory search input ── */
+.svp-territory-search-wrap {
+    position: relative;
+    padding: 8px 14px 0;
+    flex-shrink: 0;
+}
+
+.svp-territory-search-icon {
+    position: absolute;
+    left: 22px;
+    top: 50%;
+    transform: translateY(-25%);
+    font-size: 12px;
+    color: #8a8886;
+    pointer-events: none;
+}
+
+.svp-territory-search {
+    width: 100%;
+    height: 28px;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    padding: 0 28px 0 28px;
+    box-sizing: border-box;
+    outline: none;
+    color: #201f1e;
+}
+
+.svp-territory-search:focus {
+    border-color: #0078d4;
+}
+
+.svp-territory-search-clear {
+    position: absolute;
+    right: 18px;
+    top: 50%;
+    transform: translateY(-25%);
+    background: none;
+    border: none;
+    font-size: 14px;
+    color: #8a8886;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+}
+
+.svp-territory-search-clear:hover {
+    color: #201f1e;
+}
+
+/* ── Territory scope row (city dropdown + toggle) ── */
+.svp-territory-scope-row {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 14px 0;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+}
+
+.svp-territory-city-wrap {
+    flex: 1;
+    min-width: 100px;
+}
+
+.svp-territory-city-select {
+    height: 28px;
+    border: 1px solid #8a8886;
+    border-radius: 2px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    padding: 0 6px;
+    color: #201f1e;
+    background: #fff;
+    cursor: pointer;
+    width: 100%;
+    min-width: 100px;
+}
+
+/* Segmented scope toggle */
+.svp-territory-scope-toggle {
+    display: flex;
+    flex-shrink: 0;
+}
+
+.svp-territory-scope-btn {
+    height: 28px;
+    font-size: 12px;
+    font-family: "Segoe UI", sans-serif;
+    border: 1px solid #8a8886;
+    padding: 0 10px;
+    cursor: pointer;
+    white-space: nowrap;
+    background: #fff;
+    color: #323130;
+    transition: background 0.15s, color 0.15s;
+}
+
+.svp-territory-scope-left {
+    border-radius: 2px 0 0 2px;
+    border-right: none;
+}
+
+.svp-territory-scope-right {
+    border-radius: 0 2px 2px 0;
+}
+
+.svp-territory-scope-active {
+    background: #0078d4;
+    color: #fff;
+    border-color: #0078d4;
+}
+
+.svp-territory-scope-active:hover {
+    background: #106ebe;
+}
+
+.svp-territory-scope-btn:not(.svp-territory-scope-active):hover {
+    background: #f3f2f1;
+}
+
+/* Capped note */
+.svp-territory-capped-note {
+    font-size: 11px;
+    color: #835e02;
+    padding: 4px 14px;
+    background: #fff4ce;
+    border-bottom: 1px solid #f7d25e;
+}
+
+/* ============================================================
+   PHONE-IN-MOBILE-APP LAYOUT
+   Activated when context.client.getFormFactor()===1 AND
+   getClient()==="Mobile" (Power Apps Mobile only).
+   ============================================================ */
+
+/* Tab strip � hidden by default, only visible on phone in mobile app */
+.svp-mobile-tabs { display: none; }
+
+.svp--phone-mobile .svp-mobile-tabs {
+    display: flex;
+    gap: 8px;
+    padding: 8px;
+    background: #faf9f8;
+    border-bottom: 1px solid #e1dfdd;
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    flex-shrink: 0;
+}
+.svp--phone-mobile .svp-mobile-tab {
+    flex: 1;
+    height: 40px;
+    border: 1px solid #d2d0ce;
+    background: #fff;
+    color: #323130;
+    border-radius: 4px;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 80ms ease, color 80ms ease, border-color 80ms ease;
+}
+.svp--phone-mobile .svp-mobile-tab:active { transform: scale(0.98); }
+.svp--phone-mobile .svp-mobile-tab.is-active {
+    background: #0078d4;
+    color: #fff;
+    border-color: #0078d4;
+}
+
+/* Stack panes vertically; show only the pane for the active tab */
+.svp--phone-mobile .svp-root {
+    flex-direction: column;
+}
+.svp--phone-mobile .svp-list-panel,
+.svp--phone-mobile .svp-map-panel {
+    width: 100% !important;
+    flex: 1 1 auto !important;
+    min-height: 0;
+    border: none !important;
+}
+.svp--phone-mobile[data-active-tab="list"] .svp-map-panel { display: none !important; }
+.svp--phone-mobile[data-active-tab="map"]  .svp-list-panel { display: none !important; }
+
+/* Map fills its pane completely on phone (avoids the "tiny strip" problem) */
+.svp--phone-mobile .svp-map-panel,
+.svp--phone-mobile .svp-map-panel .svp-map {
+    height: 100% !important;
+}
+
+/* Touch-friendly card actions */
+.svp--phone-mobile .svp-tl-action-row {
+    flex-direction: column;
+    gap: 6px;
+    align-items: stretch;
+}
+.svp--phone-mobile .svp-tl-action-btn {
+    min-height: 48px;
+    font-size: 14px;
+}
+.svp--phone-mobile .svp-tl-completed-label {
+    width: 100%;
+    height: 44px;
+    justify-content: center;
+}
+
+/* Make card chevron and tap targets a bit larger */
+.svp--phone-mobile .svp-tl-card { padding: 12px; }
+.svp--phone-mobile .svp-tl-chevron { font-size: 22px; padding: 0 6px; }
+
+/* Slimmer rail on phone to leave more room for the card */
+.svp--phone-mobile .svp-tl-time { width: 50px; font-size: 11px; }
+
+/* When phone-mobile + Map tab, force the map panel visible
+   (overrides .layout-narrow .svp-map-panel { display: none }) */
+.svp--phone-mobile[data-active-tab="map"] .svp-map-panel {
+    display: block !important;
+    flex: 1 1 auto !important;
+    width: 100% !important;
+    height: 100% !important;
+}
+
+/* ============================================================
+   POST-VISIT NOTE MODAL
+   ============================================================ */
+.svp-vn-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    padding: 16px;
+}
+.svp-vn-dialog {
+    background: #fff;
+    border-radius: 6px;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.25);
+    width: 100%;
+    max-width: 480px;
+    max-height: 92%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    font-family: 'Segoe UI', system-ui, sans-serif;
+}
+.svp-vn-header {
+    padding: 14px 16px;
+    background: #faf9f8;
+    border-bottom: 1px solid #e1dfdd;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+}
+.svp-vn-title { font-weight: 600; font-size: 14px; color: #201f1e; }
+.svp-vn-subtitle { font-size: 12px; color: #605e5c; margin-top: 2px; }
+.svp-vn-close {
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #605e5c;
+    cursor: pointer;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 3px;
+}
+.svp-vn-close:hover { background: #edebe9; color: #201f1e; }
+.svp-vn-body {
+    padding: 14px 16px;
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+.svp-vn-row { display: flex; flex-direction: column; gap: 4px; }
+.svp-vn-label { font-size: 12px; font-weight: 600; color: #323130; }
+.svp-vn-input {
+    height: 34px;
+    padding: 4px 8px;
+    border: 1px solid #d2d0ce;
+    border-radius: 2px;
+    font-family: inherit;
+    font-size: 13px;
+    color: #201f1e;
+    background: #fff;
+    box-sizing: border-box;
+}
+.svp-vn-input:focus { outline: none; border-color: #0078d4; }
+.svp-vn-textarea { height: auto; resize: vertical; min-height: 80px; }
+.svp-vn-error {
+    color: #a4262c;
+    font-size: 12px;
+    background: #fde7e9;
+    border: 1px solid #f3b6ba;
+    padding: 6px 8px;
+    border-radius: 2px;
+}
+.svp-vn-footer {
+    padding: 12px 16px;
+    border-top: 1px solid #e1dfdd;
+    display: flex;
+    justify-content: flex-end;
+    gap: 8px;
+    background: #faf9f8;
+}
+.svp-vn-btn {
+    height: 32px;
+    padding: 0 14px;
+    border-radius: 2px;
+    border: 1px solid transparent;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+}
+.svp-vn-btn-skip { background: #fff; color: #323130; border-color: #d2d0ce; }
+.svp-vn-btn-skip:hover { background: #f3f2f1; }
+.svp-vn-btn-save { background: #0078d4; color: #fff; border-color: #0078d4; }
+.svp-vn-btn-save:hover { background: #106ebe; border-color: #106ebe; }
+.svp-vn-btn:disabled { opacity: 0.6; cursor: default; }
+
+/* Phone: full-screen modal */
+.svp--phone-mobile .svp-vn-overlay { padding: 0; }
+.svp--phone-mobile .svp-vn-dialog {
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    max-height: 100%;
+    border-radius: 0;
+}
+.svp--phone-mobile .svp-vn-input { height: 40px; font-size: 14px; }
+.svp--phone-mobile .svp-vn-btn { height: 44px; font-size: 14px; }
+
+/* Navigate button \u2014 same shape as other action buttons but a teal accent */
+.svp-tl-action-btn.svp-tl-nav-btn {
+    /* Uses the unified .svp-tl-action-btn outline style. */
+}
+

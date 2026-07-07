@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<manifest>
+  <control namespace="FieldSales" constructor="SalesVisitPlanner" version="1.6.4" display-name-key="SalesVisitPlanner" description-key="A split-panel visit planner showing todays appointments on a list and Azure Maps" control-type="standard" api-version="1.3.4">
+    <external-service-usage enabled="true">
+      <domain>atlas.microsoft.com</domain>
+    </external-service-usage>
+    <property name="boundField" display-name-key="Bound Field" description-key="Bind to a SingleLine.Text field" of-type="SingleLine.Text" usage="bound" required="true" />
+    <property name="recordId" display-name-key="Record Id" description-key="Sales Visit Plan record ID (auto-detected from form context)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="azureMapsKey" display-name-key="Azure Maps Key" description-key="Azure Maps subscription key from portal.azure.com" of-type="SingleLine.Text" usage="input" required="true" />
+    <property name="lastVisitField" display-name-key="Last Visit Date Field" description-key="Schema name of the custom last-visit-date field on account (e.g. vis_lastvisitdate)" of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="workDayStartField" display-name-key="Work Day Start Field" description-key="Field on the visit plan entity that stores the work day start time. Defaults to vis_starttime." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="workDayEndField" display-name-key="Work Day End Field" description-key="Field on the visit plan entity that stores the work day end time. Defaults to vis_workdayend." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="planTable" display-name-key="Plan Table (logical name)" description-key="Logical name of the visit plan table. Defaults to vis_salesvisitplan." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="planCollection" display-name-key="Plan Entity Set (collection name)" description-key="Entity set / collection name of the visit plan table, used for @odata.bind. Defaults to vis_salesvisitplans." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="planStatusField" display-name-key="Plan Status Field" description-key="Choice field on the visit plan for plan status write-back. Defaults to vis_status." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="driveMinutesField" display-name-key="Total Drive Minutes Field" description-key="Whole-number field on the visit plan for the optimized total drive time roll-up. Defaults to vis_new_totaldriveminutes." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="isPriorityField" display-name-key="Appointment Priority Field" description-key="Boolean field on the appointment marking a priority visit. Defaults to vis_new_ispriority." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="visitOrderField" display-name-key="Appointment Visit Order Field" description-key="Whole-number field on the appointment storing the optimized visit order. Defaults to vis_new_visitorder." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="invitationStatusField" display-name-key="Appointment Invitation Status Field" description-key="Choice field on the appointment tracking invitation status. Defaults to vis_new_invitationstatus." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="planLookupNav" display-name-key="Plan Lookup Navigation Property" description-key="Relationship / navigation property name that links an appointment to the visit plan, used for @odata.bind and unlink. Defaults to vis_new_salesvisitplanid_Appointment." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="planLookupField" display-name-key="Plan Lookup Field (logical name)" description-key="Logical name of the lookup column on appointment that references the visit plan, used to build the OData _value filter. Defaults to vis_new_salesvisitplanid." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="geocodeCountrySet" display-name-key="Geocode Country Set" description-key="Comma-separated ISO country codes to bias Azure Maps geocoding. Defaults to DK,SE,NO,DE,NL,BE,FR,GB." of-type="SingleLine.Text" usage="input" required="false" />
+    <resources>
+      <code path="index.ts" order="1" />
+      <css path="css/SalesVisitPlanner.css" order="1" />
+    </resources>
+    <feature-usage>
+      <uses-feature name="WebAPI" required="true" />
+    </feature-usage>
+  </control>
+</manifest>
