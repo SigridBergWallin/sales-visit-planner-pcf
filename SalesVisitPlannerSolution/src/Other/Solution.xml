@@ -27,7 +27,7 @@
       <EMailAddress xsi:nil="true"></EMailAddress>
       <SupportingWebsiteUrl>https://github.com/SigridBergWallin/sales-visit-planner-pcf</SupportingWebsiteUrl>
       <!-- Customization Prefix for the Cds Publisher-->
-      <CustomizationPrefix>fldsls</CustomizationPrefix>
+      <CustomizationPrefix>vis</CustomizationPrefix>
       <!-- Derived Option Value Prefix for the Customization Prefix of Cds Publisher -->
       <CustomizationOptionValuePrefix>80101</CustomizationOptionValuePrefix>
       <Addresses>

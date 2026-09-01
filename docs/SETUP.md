@@ -22,7 +22,25 @@ framework for canvas apps* is canvas-only and is not required here.
 
 ---
 
-## 2. Recommended shortcut: match the reference names
+## 2. Fastest path: import the reference solution
+
+Sections 3 and 4 below build the data model by hand. You only need them if you want to understand
+the schema, or you are mapping the control onto tables you already own.
+
+To skip straight to a working environment:
+
+1. Download `SalesVisitPlannerReference_managed.zip` from [Releases](../../releases/latest).
+2. Import it. It creates the Sales Visit Plan table, the Account and Appointment extension columns,
+   the plan-to-appointment relationship, and both choice columns with the exact option values the
+   control expects, all under the `vis` prefix.
+3. Continue from [section 5, Deploy the control](#5-deploy-the-control).
+
+The reference solution ships no form, so you still add the control to the form yourself in section 6.
+That keeps the schema and the control independent of each other.
+
+---
+
+## 2a. Building it by hand: match the reference names
 
 Create everything under a publisher whose **prefix is `vis`** and give each table, column, and
 choice the exact default name shown below. The control then needs only `boundField` and
@@ -133,18 +151,27 @@ pac pcf push --publisher-prefix vis
 `pac pcf push` packages the control into a `PowerAppsTools_vis` solution and imports it into the
 authenticated environment.
 
-### Option B: build a solution zip and import
+### Option B: import the released solution
+
+Download `SalesVisitPlanner_managed.zip` from [Releases](../../releases/latest) and import it through
+**Solutions**, **Import** in the maker portal. This is the normal path for anything other than a
+throwaway test.
+
+### Option C: build the solution zip from source
+
+The repo already contains the solution project, so there is nothing to scaffold:
 
 ```
-mkdir solution
-cd solution
-pac solution init --publisher-name "YourName" --publisher-prefix vis
-pac solution add-reference --path ..
-dotnet build
+cd SalesVisitPlannerSolution
+dotnet build -c Release
 ```
 
-Import the produced zip (under `bin\Debug`) through **Solutions**, **Import** in the maker portal.
-Use this path when you want a versioned, redistributable artifact.
+That produces both flavours under `bin\Release`:
+
+- `SalesVisitPlannerSolution.zip` (unmanaged, for a dev environment)
+- `SalesVisitPlannerSolution_managed.zip` (managed, for test and production)
+
+Import whichever suits the target environment.
 
 ---
 

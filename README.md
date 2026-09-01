@@ -22,11 +22,9 @@ Every table, column, relationship, and choice value the control touches is expos
 
 ## Screenshots
 
-Add images under `images/` and reference them here before submitting to a gallery.
-
 | Visit plan and map | Territory insights |
 | --- | --- |
-| `images/visit-plan.png` | `images/territory-insights.png` |
+| ![Visit plan and optimised route on the map](images/visit-plan.png) | ![Territory insights panel](images/territory-insights.png) |
 
 ---
 
@@ -34,9 +32,29 @@ Add images under `images/` and reference them here before submitting to a galler
 
 1. **Azure Maps account.** Create one in the Azure portal and copy a subscription key. The installer supplies their own key through the `azureMapsKey` property. No key ships with the control.
 2. **Web API enabled.** The control uses the Dataverse Web API (declared as a required feature in the manifest).
-3. **Data model.** Provision the tables, columns, relationship, and choice values described below (or install the companion reference solution).
+3. **Data model.** Install the reference solution from [Releases](../../releases/latest), or provision the tables, columns, relationship, and choice values described below by hand.
 
 The control renders on the **Sales Visit Plan** main form, bound to a text column and reading the current record id from form context.
+
+---
+
+## Installation
+
+Two solutions ship independently, so you can take the data model without the control, or bring your own schema and map the control onto it through the configuration properties.
+
+| Solution | Version | What it contains |
+|---|---|---|
+| `SalesVisitPlannerReference` | 1.0.0.0 | The reference data model: the Sales Visit Plan table, the Appointment and Account extension columns, the plan-to-appointment relationship, and the two choice columns with the option values the control expects. |
+| `SalesVisitPlanner` | 1.6.4 | The PCF control itself. |
+
+1. Import `SalesVisitPlannerReference_managed.zip`. Skip this if you already have your own schema.
+2. Import `SalesVisitPlanner_managed.zip`.
+3. Open the **Sales Visit Plan** main form, add the control to a text column, and set `azureMapsKey`.
+4. If you skipped step 1, override the table, column, and relationship names through the [configuration properties](#configuration-properties).
+
+Both solutions use the `vis` publisher prefix, so a default install needs no property overrides.
+
+The reference solution deliberately ships no form. Keeping the schema and the control in separate solutions with no form binding between them means neither depends on the other, and your form stays yours.
 
 ---
 
@@ -75,23 +93,28 @@ The standard `appointment` activity, extended with:
 
 ### Choice values that must align
 
-The invitation and plan status option values are compiled into the control. If you create your own choice columns, use these exact values, or install the companion reference solution, which provisions them.
+The invitation and plan status option values are compiled into the control. The reference solution provisions them. If you create your own choice columns instead, use these exact values.
 
 **Invitation status**
 
 | Label | Value |
 | --- | --- |
 | Not sent | 100000000 |
-| Invited | 100000001 |
+| Invitation sent | 100000001 |
 | Accepted | 100000002 |
 | Declined | 100000003 |
 
 **Plan status**
 
-| Label | Value |
-| --- | --- |
-| Active | 100000001 |
-| Completed | 100000002 |
+| Label | Value | Used by the control |
+| --- | --- | --- |
+| Draft | 100000000 | |
+| Active | 100000001 | yes |
+| Completed | 100000002 | yes |
+| Cancelled | 100000003 | |
+| In progress | 100000004 | |
+
+The reference solution ships all five so the column is useful for your own process, but the control only branches on Active and Completed.
 
 ---
 
@@ -125,7 +148,7 @@ Set these when you add the control to the form. Every schema property is optiona
 The control is built as a reusable engine with the customer context externalized:
 
 - **Core (this control).** Map rendering, route optimization, drive-time timeline, prospect search, and all read/write logic. Unchanged between installs.
-- **Context (your data model).** Table, column, relationship, and choice names, supplied through the configuration properties above and the companion reference solution.
+- **Context (your data model).** Table, column, relationship, and choice names, supplied through the configuration properties above and the `SalesVisitPlannerReference` solution.
 
 To reuse the control against a different schema, map each property to your own logical names. No source changes are required.
 
