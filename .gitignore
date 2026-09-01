@@ -21,3 +21,6 @@
 
 # macos
 .DS_Store
+
+# Staged release assets
+dist/
