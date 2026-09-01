@@ -4,7 +4,7 @@ A model-driven Power Apps code component that turns a day's appointments into an
 
 Every table, column, relationship, and choice value the control touches is exposed as a manifest configuration property. The defaults match the reference data model, so the control works out of the box against that schema and can be pointed at a different schema without changing code.
 
-> Control identity: `FieldSales.SalesVisitPlanner`
+> Control identity: `vis_FieldSales.SalesVisitPlanner`
 
 ---
 
@@ -13,7 +13,7 @@ Every table, column, relationship, and choice value the control touches is expos
 - Split-panel layout: scheduled appointment list beside a live Azure Maps map
 - Route optimization with per-leg and total drive-time roll-up
 - Visit-order timeline with priority flags
-- Invitation status tracking (not sent, invited, accepted, declined)
+- Invitation status tracking (not sent, invitation sent, accepted, declined)
 - Territory Insights: nearby accounts ranked by last-visit date
 - Prospect search to add unplanned accounts and leads to the day
 - Geocoding biased to a configurable set of countries
