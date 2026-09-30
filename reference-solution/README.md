@@ -50,8 +50,8 @@ without taking ownership of the standard tables.
   solution to the control solution and make neither installable on its own. Add the control to your
   own form instead, as described in [SETUP.md](../docs/SETUP.md).
 - **No app, no views, no data.** This is a schema contract, not a demo.
-- **No columns the control does not read.** The control's manifest exposes 17 configuration
-  properties; the schema properties among them map exactly onto the columns above.
+- **No columns the control does not read.** The control's manifest exposes 16 configuration
+  properties; the 12 schema properties among them map exactly onto the columns above.
 
 ## Using your own schema instead
 

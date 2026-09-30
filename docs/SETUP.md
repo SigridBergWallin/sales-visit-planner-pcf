@@ -29,7 +29,7 @@ the schema, or you are mapping the control onto tables you already own.
 
 To skip straight to a working environment:
 
-1. Download `SalesVisitPlannerReference_managed.zip` from [Releases](../../releases/latest).
+1. Download `SalesVisitPlannerReference_managed.zip` from [Releases](https://github.com/SigridBergWallin/sales-visit-planner-pcf/releases/latest).
 2. Import it. It creates the Sales Visit Plan table, the Account and Appointment extension columns,
    the plan-to-appointment relationship, and both choice columns with the exact option values the
    control expects, all under the `vis` prefix.
@@ -153,7 +153,7 @@ authenticated environment.
 
 ### Option B: import the released solution
 
-Download `SalesVisitPlanner_managed.zip` from [Releases](../../releases/latest) and import it through
+Download `SalesVisitPlanner_managed.zip` from [Releases](https://github.com/SigridBergWallin/sales-visit-planner-pcf/releases/latest) and import it through
 **Solutions**, **Import** in the maker portal. This is the normal path for anything other than a
 throwaway test.
 

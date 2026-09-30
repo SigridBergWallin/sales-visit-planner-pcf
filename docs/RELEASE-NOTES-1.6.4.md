@@ -10,9 +10,10 @@ field-sales route. A scheduled list on the left, an interactive Azure Maps view 
 drive-time estimates between stops, a visit-order timeline, invitation tracking, and a Territory
 Insights panel that ranks nearby accounts by how long it has been since anyone visited them.
 
-Every table, column, relationship, and choice value the control touches is a manifest configuration
-property. Seventeen in total. The defaults match the reference data model, so the control runs
-untouched against that schema and points at a different schema without a code change.
+Every table, column, and relationship name the control touches is a manifest configuration
+property: twelve schema properties out of sixteen in total. The defaults match the reference data
+model, so the control runs untouched against that schema and points at a different schema without a
+code change. Choice option values are the exception; see Known limits.
 
 ## Assets
 
@@ -38,7 +39,7 @@ beyond `azureMapsKey`.
 
 ## Setting it up
 
-[docs/SETUP.md](../blob/main/docs/SETUP.md) walks a fresh environment end to end, including the
+[docs/SETUP.md](https://github.com/SigridBergWallin/sales-visit-planner-pcf/blob/main/docs/SETUP.md) walks a fresh environment end to end, including the
 smoke test and the edge cases worth checking.
 
 The reference solution ships no form. Keeping the schema and the control in separate solutions with
