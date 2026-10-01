@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <manifest>
-  <control namespace="FieldSales" constructor="SalesVisitPlanner" version="1.6.4" display-name-key="SalesVisitPlanner" description-key="A split-panel visit planner showing todays appointments on a list and Azure Maps" control-type="standard" api-version="1.3.4">
+  <control namespace="FieldSales" constructor="SalesVisitPlanner" version="1.6.9" display-name-key="SalesVisitPlanner" description-key="A split-panel visit planner showing todays appointments on a list and Azure Maps" control-type="standard" api-version="1.3.4">
     <external-service-usage enabled="true">
       <domain>atlas.microsoft.com</domain>
     </external-service-usage>
@@ -20,6 +20,7 @@
     <property name="planLookupNav" display-name-key="Plan Lookup Navigation Property" description-key="Relationship / navigation property name that links an appointment to the visit plan, used for @odata.bind and unlink. Defaults to vis_new_salesvisitplanid_Appointment." of-type="SingleLine.Text" usage="input" required="false" />
     <property name="planLookupField" display-name-key="Plan Lookup Field (logical name)" description-key="Logical name of the lookup column on appointment that references the visit plan, used to build the OData _value filter. Defaults to vis_new_salesvisitplanid." of-type="SingleLine.Text" usage="input" required="false" />
     <property name="geocodeCountrySet" display-name-key="Geocode Country Set" description-key="Comma-separated ISO country codes to bias Azure Maps geocoding. Defaults to DK,SE,NO,DE,NL,BE,FR,GB." of-type="SingleLine.Text" usage="input" required="false" />
+    <property name="defaultMapCenter" display-name-key="Default Map Center" description-key="Map position shown when a plan has no geocoded visits, as lat,lon or lat,lon,zoom (for example 55.68,12.57,11). When empty, a wide northern Europe view is used." of-type="SingleLine.Text" usage="input" required="false" />
     <resources>
       <code path="index.ts" order="1" />
       <css path="css/SalesVisitPlanner.css" order="1" />

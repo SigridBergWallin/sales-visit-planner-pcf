@@ -59,7 +59,7 @@ export const searchNearbyBusinesses = async (
     `https://atlas.microsoft.com/search/fuzzy/json`
     + `?${params.toString()}`;
 
-  console.log('[ProspectSearch] fetching:', url);
+  console.log('[ProspectSearch] fetching:', url.replace(/subscription-key=[^&]+/, 'subscription-key=***'));
 
   // Use XMLHttpRequest instead of fetch —
   // more reliable in D365 PCF WebView context

@@ -1,6 +1,6 @@
 {
   "name": "sales-visit-planner-pcf",
-  "version": "1.6.4",
+  "version": "1.6.9",
   "description": "Configuration-driven Power Apps Component Framework (PCF) control that turns a day's appointments into an optimized field-sales route with Azure Maps, drive-time estimates, a visit-order timeline, invitation tracking, and territory insights.",
   "author": "Sigrid Berg Wallin",
   "license": "MIT",

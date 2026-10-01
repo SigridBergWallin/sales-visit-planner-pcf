@@ -10,7 +10,7 @@
     <Descriptions>
       <Description description="Configuration-driven PCF control that turns a day's appointments into an optimized field-sales route with Azure Maps, drive-time estimates, a visit-order timeline, invitation tracking, and territory insights." languagecode="1033" />
     </Descriptions>
-    <Version>1.6.4</Version>
+    <Version>1.6.9</Version>
     <!-- Solution Package Type: Unmanaged(0)/Managed(1)/Both(2)-->
     <Managed>2</Managed>
     <Publisher>

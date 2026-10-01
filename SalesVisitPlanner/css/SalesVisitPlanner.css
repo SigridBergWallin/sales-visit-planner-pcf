@@ -106,6 +106,16 @@
     white-space: nowrap;
     flex-shrink: 0;
 }
+.svp-badge-no-location {
+    background: #FDE7E9;
+    color: #A4262C;
+    border: 1px solid #F1BBBC;
+    border-radius: 2px;
+    font-size: 10px;
+    padding: 1px 5px;
+    white-space: nowrap;
+    flex-shrink: 0;
+}
 .svp-optimize-btn {
     background: #fff;
     color: #323130;

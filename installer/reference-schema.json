@@ -1,0 +1,77 @@
+{
+  "$comment": "Reference data model for the Sales Visit Planner control. Read by Install-Schema.ps1. Change names here, not in the script.",
+  "language": 1033,
+  "publisher": {
+    "uniqueName": "FieldSalesTools",
+    "friendlyName": "Field Sales Tools",
+    "prefix": "vis",
+    "optionValuePrefix": 80101
+  },
+  "solution": {
+    "uniqueName": "SalesVisitPlannerReference",
+    "friendlyName": "Sales Visit Planner Reference",
+    "version": "1.0.1.0",
+    "description": "Reference data model for the Sales Visit Planner control: the Sales Visit Plan table, Account and Appointment extension columns, and the plan-to-appointment relationship."
+  },
+  "tables": [
+    {
+      "logicalName": "vis_salesvisitplan",
+      "create": true,
+      "schemaName": "vis_salesvisitplan",
+      "displayName": "Sales Visit Plan",
+      "pluralName": "Sales Visit Plans",
+      "description": "A daily visit plan for a sales representative, containing an ordered set of customer visits.",
+      "ownership": "UserOwned",
+      "primaryName": { "schemaName": "vis_name", "displayName": "Name", "maxLength": 100, "description": "Primary name of the visit plan." },
+      "columns": [
+        { "schemaName": "vis_starttime", "type": "DateTime", "displayName": "Work Day Start", "description": "Work day start. The date part sets the plan day; the time part sets the start of working hours." },
+        { "schemaName": "vis_workdayend", "type": "DateTime", "displayName": "Work Day End", "description": "Work day end. The time part sets the end of working hours." },
+        { "schemaName": "vis_status", "type": "Choice", "displayName": "Plan Status", "required": "ApplicationRequired", "description": "Status of the visit plan. The control writes Active and Completed.",
+          "options": [
+            { "value": 100000000, "label": "Draft" },
+            { "value": 100000001, "label": "Active" },
+            { "value": 100000002, "label": "Completed" },
+            { "value": 100000003, "label": "Cancelled" },
+            { "value": 100000004, "label": "In Progress" }
+          ] },
+        { "schemaName": "vis_new_totaldriveminutes", "type": "Integer", "displayName": "Total Drive Minutes", "description": "Total optimized drive time in minutes, written by the control." },
+        { "schemaName": "vis_plannercanvas", "type": "Text", "maxLength": 100, "displayName": "Planner", "description": "Placeholder column that hosts the Sales Visit Planner control on the form. Holds no data." }
+      ]
+    },
+    {
+      "logicalName": "account",
+      "create": false,
+      "columns": [
+        { "schemaName": "vis_lastvisitdate", "type": "DateTime", "displayName": "Last Visit Date", "description": "Date this account was last visited. Read by Territory Insights." }
+      ]
+    },
+    {
+      "logicalName": "appointment",
+      "create": false,
+      "columns": [
+        { "schemaName": "vis_new_ispriority", "type": "YesNo", "displayName": "Priority Visit", "description": "Flags the appointment as a priority visit." },
+        { "schemaName": "vis_new_visitorder", "type": "Integer", "displayName": "Visit Order", "description": "Position of this visit in the optimized route, written by the control." },
+        { "schemaName": "vis_new_invitationstatus", "type": "Choice", "displayName": "Invitation Status", "description": "Invitation status for this visit, written by the control.",
+          "options": [
+            { "value": 100000000, "label": "Not Sent" },
+            { "value": 100000001, "label": "Invitation Sent" },
+            { "value": 100000002, "label": "Accepted" },
+            { "value": 100000003, "label": "Declined" }
+          ] }
+      ]
+    }
+  ],
+  "lookups": [
+    {
+      "relationshipSchemaName": "vis_salesvisitplan_appointment",
+      "referencingTable": "appointment",
+      "referencedTable": "vis_salesvisitplan",
+      "lookupSchemaName": "vis_new_salesvisitplanid",
+      "displayName": "Sales Visit Plan",
+      "description": "Links the appointment to a Sales Visit Plan.",
+      "referencingNavigationProperty": "vis_new_salesvisitplanid_Appointment",
+      "referencedNavigationProperty": "vis_salesvisitplan_appointment",
+      "deleteBehavior": "RemoveLink"
+    }
+  ]
+}

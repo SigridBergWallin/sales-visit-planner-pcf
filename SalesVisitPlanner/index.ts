@@ -244,8 +244,8 @@ async function getDrivingRoutePost(
         type: "FeatureCollection" as const,
         features,
         travelMode: "driving",
-        routeOutputOptions: ["routePath", "summary", "legs"],
-        optimizeRoute: "shortest",
+        routeOutputOptions: ["routeSummary", "routePath"],
+        optimizeRoute: "fastestWithoutTraffic",
     };
 
     const url =
@@ -253,7 +253,7 @@ async function getDrivingRoutePost(
         `?api-version=2025-01-01` +
         `&subscription-key=${azureMapsKey}`;
 
-    console.log("[Route POST] URL:", url);
+    console.log("[Route POST] URL:", url.replace(/subscription-key=[^&]+/, "subscription-key=***"));
     console.log("[Route POST] body:", JSON.stringify(requestBody));
 
     const response = await fetch(url, {
@@ -287,26 +287,19 @@ async function getDrivingRoutePost(
     const routePoints: [number, number][] = routeFeature.geometry.coordinates.flat();
     console.log(`[Route POST] ${routePoints.length} geometry points`);
 
-    const waypointFeatures = data.features?.filter(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const legs: any[] = routeFeature.properties?.legs ?? [];
+    const legSummaries: LegSummary[] = legs
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        (f: any) => f.properties?.type === "Waypoint"
-    ) ?? [];
-
-    const legSummaries: LegSummary[] = waypointFeatures
-        .slice(0, -1)
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        .map((f: any) => ({
-            travelTimeSeconds: f.properties?.durationInSeconds ?? 0,
-            lengthInMeters: f.properties?.distanceInMeters ?? 0,
+        .map((leg: any) => ({
+            travelTimeSeconds: leg?.durationInSeconds ?? 0,
+            lengthInMeters: leg?.distanceInMeters ?? 0,
         }));
 
-    if (legSummaries.length === 0) {
-        const summaryFeature = data.features?.find(
-            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-            (f: any) => f.properties?.resourceId
-        );
-        const totalSeconds = summaryFeature?.properties?.durationInSeconds ?? 0;
-        const totalMeters = summaryFeature?.properties?.distanceInMeters ?? 0;
+    if (legSummaries.length !== waypoints.length - 1) {
+        legSummaries.length = 0;
+        const totalSeconds = routeFeature.properties?.durationInSeconds ?? 0;
+        const totalMeters = routeFeature.properties?.distanceInMeters ?? 0;
         const perLeg = waypoints.length - 1;
         for (let i = 0; i < perLeg; i++) {
             legSummaries.push({
@@ -340,7 +333,7 @@ async function getDrivingRouteGet(
         `&travelMode=car` +
         `&routeType=fastest`;
 
-    console.log("[Route GET] URL:", url);
+    console.log("[Route GET] URL:", url.replace(/subscription-key=[^&]+/, "subscription-key=***"));
 
     const response = await fetch(url);
     console.log("[Route GET] status:", response.status);
@@ -545,6 +538,7 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
     private _planLookupNav = "vis_new_salesvisitplanid_Appointment";
     private _planLookupField = "vis_new_salesvisitplanid";
     private _geocodeCountrySet = "DK,SE,NO,DE,NL,BE,FR,GB";
+    private _defaultMapCenter: { lat: number; lon: number; zoom: number } | null = null;
     private _workStartMins = 480; // 8:00 default
     private _workEndMins = 1020;  // 17:00 default
     private _territoryPopup: atlas.Popup | null = null;
@@ -579,6 +573,7 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
         this._planLookupNav = context.parameters.planLookupNav?.raw?.trim() || "vis_new_salesvisitplanid_Appointment";
         this._planLookupField = context.parameters.planLookupField?.raw?.trim() || "vis_new_salesvisitplanid";
         this._geocodeCountrySet = context.parameters.geocodeCountrySet?.raw?.trim() || "DK,SE,NO,DE,NL,BE,FR,GB";
+        this._defaultMapCenter = this._parseMapCenter(context.parameters.defaultMapCenter?.raw);
         this._isHarness = this._detectHarness();
 
         // Tell D365 to notify us of container resize / allocated height
@@ -1590,6 +1585,10 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
         const invPill = this._getInvitationStatusPill(v.invitationStatus);
 
         // Outside working hours badge
+        const noLocationBadge = v.geocodeError
+            ? `<span class="svp-badge-no-location" title="${v.address ? "Address could not be found" : "Account has no address"}. This visit is not on the map or route.">Not on map</span>`
+            : "";
+
         const outsideBadge = this._isOutsideWorkingHours(v)
             ? `<span class="svp-badge-outside-hours">Outside hours</span>`
             : "";
@@ -1603,7 +1602,7 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
             `<div class="svp-tl-card-collapsed-main">` +
             `<div class="svp-tl-card-header">` +
             `<div class="svp-tl-card-title" title="${accountLabel}">${accountLabel}</div>` +
-            `<div class="svp-tl-card-badges">${outsideBadge}${invPill}</div>` +
+            `<div class="svp-tl-card-badges">${noLocationBadge}${outsideBadge}${invPill}</div>` +
             `</div>` +
             `<div class="svp-tl-card-subtitle">${this._escapeHtml(time)}${addrLabel ? ` \u00B7 ${addrLabel}` : ""}</div>` +
             `</div>` +
@@ -2691,8 +2690,8 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
                 authType: atlas.AuthenticationType.subscriptionKey,
                 subscriptionKey: this._azureMapsKey,
             },
-            center: [-1.5, 52.5],
-            zoom: 6,
+            center: this._getMapFallbackCamera().center,
+            zoom: this._getMapFallbackCamera().zoom,
             language: "en-US",
             // eslint-disable-next-line @typescript-eslint/no-explicit-any
             ...({ style: "road" } as any),
@@ -3877,7 +3876,11 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
         this._knownPriorityIds.add(activityId);
 
         const localAppt = this._visits.find((v) => v.id === activityId);
-        if (localAppt) localAppt.isPriority = true;
+        if (localAppt) {
+            localAppt.isPriority = true;
+            // Re-render so the persistent priority dot shows even if the user keeps the current order
+            this._renderList();
+        }
 
         this._highlightPriorityCard(activityId);
 
@@ -3888,7 +3891,20 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
             activityId,
             accountName,
             async () => {
-                this._moveToTop(activityId);
+                let rescheduled = 0;
+                try {
+                    rescheduled = await this._moveToTop(activityId);
+                } catch (err) {
+                    console.error("[SVP] Move to top failed:", err);
+                    this._showMapBanner("Could not reschedule the visits. Please try again.", "error");
+                    return;
+                }
+                this._showMapBanner(
+                    rescheduled > 0
+                        ? `${this._escapeHtml(accountName)} moved to the top. ${rescheduled} visits rescheduled.`
+                        : `${this._escapeHtml(accountName)} is already the next open visit.`,
+                    "info"
+                );
                 this._renderList();
                 this._routePoints = [];
                 this._legSummaries = [];
@@ -3904,11 +3920,55 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
         );
     }
 
-    private _moveToTop(activityId: string): void {
-        const index = this._visits.findIndex((v) => v.id === activityId);
-        if (index <= 0) return;
-        const [appt] = this._visits.splice(index, 1);
-        this._visits.unshift(appt);
+    /**
+     * Moves a visit to the front of the open (not started, not completed) visits and
+     * reschedules those open visits back-to-back from the earliest open start time,
+     * keeping each visit's duration and the standard gap. Persists times + visit order.
+     * Returns the number of visits rescheduled (0 when nothing changed).
+     */
+    private async _moveToTop(activityId: string): Promise<number> {
+        const isOpen = (v: VisitItem) => v.statecode !== 1 && !v.actualstart;
+        const open = this._visits
+            .filter(isOpen)
+            .sort((a, b) => a.scheduledStart.getTime() - b.scheduledStart.getTime());
+        const index = open.findIndex((v) => v.id === activityId);
+        if (index <= 0) return 0;
+
+        const slotStart = new Date(open[0].scheduledStart);
+        const [moved] = open.splice(index, 1);
+        open.unshift(moved);
+
+        const lockedCount = this._visits.length - open.length;
+        let cursor = slotStart.getTime();
+        const updates: { id: string; start: Date; end: Date; order: number }[] = [];
+        open.forEach((v, i) => {
+            const durationMs = v.scheduledEnd
+                ? Math.max(v.scheduledEnd.getTime() - v.scheduledStart.getTime(), 15 * 60000)
+                : SalesVisitPlanner._NEW_VISIT_MINS * 60000;
+            const start = new Date(cursor);
+            const end = new Date(cursor + durationMs);
+            updates.push({ id: v.id, start, end, order: lockedCount + i + 1 });
+            cursor = end.getTime() + SalesVisitPlanner._NEW_VISIT_GAP_MINS * 60000;
+        });
+
+        const visitOrderField = await this._getFieldName(
+            this._visitOrderField, "vis_new_visitorder", "vis_visitorder", "new_visitorder"
+        );
+        await Promise.all(updates.map(async (u) => {
+            const data: Record<string, unknown> = {
+                scheduledstart: u.start.toISOString(),
+                scheduledend: u.end.toISOString(),
+            };
+            data[visitOrderField] = u.order;
+            await this._context!.webAPI.updateRecord("appointment", u.id, data);
+        }));
+
+        for (const u of updates) {
+            const v = this._visits.find((x) => x.id === u.id);
+            if (v) { v.scheduledStart = u.start; v.scheduledEnd = u.end; }
+        }
+        this._visits.sort((a, b) => a.scheduledStart.getTime() - b.scheduledStart.getTime());
+        return updates.length;
     }
 
     private _showPriorityNotification(
@@ -3977,7 +4037,9 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
             const badge = document.createElement("div");
             badge.className = "priority-badge";
             badge.textContent = "\uD83D\uDEA8 URGENT";
-            card.querySelector(".svp-list-details")?.prepend(badge);
+            const header = card.querySelector(".svp-tl-card-header");
+            if (header) header.appendChild(badge);
+            else card.querySelector(".svp-list-details")?.prepend(badge);
         }
     }
 
@@ -4094,18 +4156,31 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
         setTimeout(() => banner.remove(), 8000);
     }
 
+    /**
+     * Render the empty state into the list body only, so the header and its
+     * action buttons (Territory insights, Find prospects) stay usable.
+     * A custom message replaces the guidance (used for configuration errors).
+     */
     private _showEmptyState(message?: string): void {
-        const listPanel = this._container.querySelector(".svp-list-panel");
-        if (listPanel) {
-            listPanel.innerHTML = `
-                <div class="empty-state">
-                    <div style="font-size:32px">\uD83D\uDDFA\uFE0F</div>
-                    <div>${message ?? "No appointments in this plan yet."}</div>
-                    <div style="font-size:11px;color:#888;margin-top:4px">
-                        Use the \u201CCreate Appointments\u201D button to add visits to this plan.
-                    </div>
-                </div>`;
-        }
+        if (!this._listBody) return;
+        const guidance = message
+            ? ""
+            : `<div style="font-size:12px;color:#666;margin-top:6px;max-width:320px">
+                    Add visits from <strong>Territory insights</strong> (your existing accounts)
+                    or <strong>Find prospects</strong> (new businesses nearby).
+               </div>
+               <button type="button" class="svp-empty-territory-btn"
+                    style="margin-top:12px;padding:6px 14px;border:1px solid #0078D4;border-radius:4px;background:#0078D4;color:#fff;cursor:pointer;font-size:12px">
+                    Open territory insights
+               </button>`;
+        this._listBody.innerHTML = `
+            <div class="empty-state">
+                <div style="font-size:32px">\uD83D\uDDFA\uFE0F</div>
+                <div>${message ?? "No appointments in this plan yet."}</div>
+                ${guidance}
+            </div>`;
+        this._listBody.querySelector(".svp-empty-territory-btn")
+            ?.addEventListener("click", () => { void this._switchToTerritoryView(); });
         this._clearMapRoute();
     }
 
@@ -4117,8 +4192,29 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
         try { mapAny.layers.remove("route-outline"); } catch { /* noop */ }
         try { mapAny.sources.remove("route-source"); } catch { /* noop */ }
         this._map.markers.clear();
-        mapAny.setCamera({ center: [-1.5, 52.5], zoom: 6 });
+        const c = this._getMapFallbackCamera();
+        mapAny.setCamera({ center: c.center, zoom: c.zoom });
         /* eslint-enable @typescript-eslint/no-explicit-any */
+    }
+
+    /** Parse the defaultMapCenter property: "lat,lon" or "lat,lon,zoom". */
+    private _parseMapCenter(raw: string | null | undefined): { lat: number; lon: number; zoom: number } | null {
+        if (!raw || !raw.trim()) return null;
+        const parts = raw.split(",").map((p) => parseFloat(p.trim()));
+        const [lat, lon, zoom] = parts;
+        if (parts.length < 2 || isNaN(lat) || isNaN(lon) || Math.abs(lat) > 90 || Math.abs(lon) > 180) {
+            console.warn("[SVP] Ignoring invalid defaultMapCenter (expected 'lat,lon[,zoom]'):", raw);
+            return null;
+        }
+        return { lat, lon, zoom: !isNaN(zoom) && zoom >= 1 && zoom <= 20 ? zoom : 10 };
+    }
+
+    /** Camera used when there is nothing to fit: configured center, else a wide northern Europe view. */
+    private _getMapFallbackCamera(): { center: atlas.data.Position; zoom: number } {
+        if (this._defaultMapCenter) {
+            return { center: [this._defaultMapCenter.lon, this._defaultMapCenter.lat], zoom: this._defaultMapCenter.zoom };
+        }
+        return { center: [10, 56], zoom: 4 };
     }
 
     /* ───────────────── DEV / HARNESS DETECTION ───────────────── */
@@ -5102,21 +5198,25 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
 
     /* ───────────────── HELPERS ───────────────── */
 
+    private _fieldNameCache = new Map<string, string>();
+
+    // Probes candidates one at a time: a $select naming a missing column fails the whole request.
     private async _getFieldName(...candidates: string[]): Promise<string> {
-        if (!this._context || this._visits.length === 0) return candidates[0];
-        try {
-            const sample = await this._context.webAPI.retrieveRecord(
-                "appointment",
-                this._visits[0].id,
-                `?$select=${candidates.join(",")}`
-            );
-            for (const name of candidates) {
-                if (name in sample) return name;
+        const unique = Array.from(new Set(candidates.filter(Boolean)));
+        const cacheKey = unique.join(",");
+        const cached = this._fieldNameCache.get(cacheKey);
+        if (cached) return cached;
+        if (!this._context || this._visits.length === 0) return unique[0];
+        for (const name of unique) {
+            try {
+                await this._context.webAPI.retrieveRecord("appointment", this._visits[0].id, `?$select=${name}`);
+                this._fieldNameCache.set(cacheKey, name);
+                return name;
+            } catch {
+                // Column not present; try the next candidate
             }
-        } catch {
-            // Fall through to default
         }
-        return candidates[0];
+        return unique[0];
     }
 
     private _roundUpToHalfHour(date: Date): Date {
@@ -5930,6 +6030,7 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
 
     /* ── Remove territory layers ── */
     private _removeTerritoryLayers(): void {
+        this._container.querySelector(".svp-territory-legend")?.remove();
         if (!this._map) return;
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         const mapAny = this._map as any;
@@ -6057,22 +6158,20 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
         if (addBtn) { addBtn.disabled = true; addBtn.textContent = "Adding\u2026"; }
 
         let addedCount = 0;
-        const now = new Date();
-        // Start appointments 30 min apart from now, rounded up
-        const baseTime = this._roundUpToHalfHour(now);
+        const failed: string[] = [];
+        // Schedule on the plan's day: after the last existing visit, or from the start of the working day
+        let slotStart = this._getNextVisitSlotStart();
 
-        for (let i = 0; i < selectedAccounts.length; i++) {
-            const acc = selectedAccounts[i];
-            const startTime = new Date(baseTime.getTime() + i * 30 * 60 * 1000);
-            const endTime = new Date(startTime.getTime() + 30 * 60 * 1000);
+        for (const acc of selectedAccounts) {
+            const startTime = slotStart;
+            const endTime = new Date(startTime.getTime() + SalesVisitPlanner._NEW_VISIT_MINS * 60 * 1000);
 
             try {
                 const territoryApptData: Record<string, unknown> = {
-                    subject: `Visit \u2014 ${acc.name}`,
+                    subject: `Sales Visit \u2014 ${acc.name}`,
                     scheduledstart: startTime.toISOString(),
                     scheduledend: endTime.toISOString(),
                     location: acc.address ?? "",
-                    // Link to the account as a party
                     "appointment_activity_parties": [
                         {
                             "partyid_account@odata.bind": `/accounts(${acc.accountId})`,
@@ -6080,27 +6179,80 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
                         }
                     ]
                 };
-                // Link to the sales visit plan (regarding object)
-                territoryApptData[`regardingobjectid_${this._planTable}@odata.bind`] = `/${this._planCollection}(${this._planId})`;
+                // Same plan lookup the plan view filters on (see _fetchAppointments)
+                territoryApptData[`${this._planLookupNav}@odata.bind`] = `/${this._planCollection}(${this._planId})`;
+                territoryApptData[this._invitationStatusField] = STATUS.invitation.notSent;
+                territoryApptData[this._isPriorityField] = false;
                 await this._context.webAPI.createRecord("appointment", territoryApptData);
                 addedCount++;
+                slotStart = new Date(endTime.getTime() + SalesVisitPlanner._NEW_VISIT_GAP_MINS * 60 * 1000);
             } catch (err) {
                 console.error(`[SVP] Failed to create appointment for ${acc.name}:`, err);
+                failed.push(acc.name);
             }
         }
 
-        // Clear selection and show confirmation
         this._territorySelectedIds.clear();
         if (addBtn) { addBtn.disabled = false; addBtn.textContent = "Add to plan"; }
 
-        if (addedCount > 0) {
-            this._showMapBanner(
-                `\u2705 Added ${addedCount} visit${addedCount > 1 ? "s" : ""} to today's plan. Switch back to see them.`,
-                "info"
-            );
+        if (addedCount === 0) {
+            this._renderTerritoryList();
+            this._showMapBanner("\u26A0\uFE0F Could not add the selected accounts to the plan. Check the browser console for details.", "error");
+            return;
         }
 
-        this._renderTerritoryList();
+        // Reload the plan from Dataverse and show it, so the new visits appear with a route
+        await this._reloadPlanAndShow();
+        const failedNote = failed.length > 0
+            ? ` Could not add: ${this._escapeHtml(failed.join(", "))}.`
+            : "";
+        this._showMapBanner(
+            `\u2705 Added ${addedCount} visit${addedCount > 1 ? "s" : ""} to this plan. Route recalculated.${failedNote}`,
+            failed.length > 0 ? "warning" : "info"
+        );
+    }
+
+    /** Default length and spacing for visits added from Territory insights or Find prospects. */
+    private static readonly _NEW_VISIT_MINS = 60;
+    private static readonly _NEW_VISIT_GAP_MINS = 30;
+
+    /**
+     * Start time for the next visit added to this plan: after the latest existing
+     * visit (plus travel buffer), otherwise the start of the plan's working day.
+     */
+    private _getNextVisitSlotStart(): Date {
+        if (this._visits.length > 0) {
+            const lastEnd = Math.max(...this._visits.map((v) => (v.scheduledEnd ?? v.scheduledStart).getTime()));
+            return this._roundUpToHalfHour(new Date(lastEnd + SalesVisitPlanner._NEW_VISIT_GAP_MINS * 60 * 1000));
+        }
+        if (this._planDate) {
+            const d = new Date(this._planDate);
+            d.setHours(0, 0, 0, 0);
+            d.setMinutes(this._workStartMins);
+            return d;
+        }
+        return this._roundUpToHalfHour(new Date());
+    }
+
+    /** Re-fetch the plan's visits, recalculate the route and switch back to the plan view. */
+    private async _reloadPlanAndShow(): Promise<void> {
+        if (!this._context) return;
+        try {
+            await this._fetchAppointments(this._context);
+            await this._geocodeAll();
+            await this._fetchOpportunities();
+            this._routePoints = [];
+            this._legSummaries = [];
+            await this._calculateRoute();
+            this._lastKnownActivityIds = new Set(this._visits.map((v) => v.id));
+        } catch (err) {
+            console.error("[SVP] Could not reload plan after adding visits:", err);
+        }
+        this._switchToVisitPlanView();
+        this._renderJourneySummary();
+        if (this._map) { this._map.dispose(); this._map = null; }
+        this._renderMap();
+        this._updateHeaderButtonStyles();
     }
 
     /* ── Currency formatter ── */
@@ -7145,10 +7297,8 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
             apptData[this._invitationStatusField] = STATUS.invitation.notSent;
             apptData[this._isPriorityField] = false;
 
-            const lastVisit = this._visits[this._visits.length - 1];
-            const startTime = lastVisit?.scheduledEnd ?? lastVisit?.scheduledStart ?? new Date();
-            const start = new Date(startTime.getTime() + 30 * 60 * 1000);
-            const end = new Date(start.getTime() + 60 * 60 * 1000);
+            const start = this._getNextVisitSlotStart();
+            const end = new Date(start.getTime() + SalesVisitPlanner._NEW_VISIT_MINS * 60 * 1000);
             apptData.scheduledstart = start.toISOString();
             apptData.scheduledend = end.toISOString();
 
@@ -7199,6 +7349,7 @@ export class SalesVisitPlanner implements ComponentFramework.StandardControl<IIn
             // Recalculate
             await this._geocodeAll();
             await this._calculateRoute();
+            this._renderList();
             this._renderJourneySummary();
             this._plotProspectPins();
             this._updateProspectCount();

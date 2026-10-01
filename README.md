@@ -2,7 +2,7 @@
 
 A model-driven Power Apps code component that turns a day's appointments into an optimized field-sales route. It shows today's visits in a split panel: a scheduled list on the left and an interactive Azure Maps view on the right, with drive-time estimates, route optimization, a visit-order timeline, invitation tracking, and a Territory Insights view of nearby accounts.
 
-Every table, column, relationship, and choice value the control touches is exposed as a manifest configuration property. The defaults match the reference data model, so the control works out of the box against that schema and can be pointed at a different schema without changing code.
+Every table, column, and relationship name the control touches is exposed as a manifest configuration property. The defaults match the reference data model, so the control works out of the box against that schema and can be pointed at a different schema without changing code. Choice option values are the exception: they are fixed (see [Choice values that must align](#choice-values-that-must-align)).
 
 > Control identity: `vis_FieldSales.SalesVisitPlanner`
 
@@ -30,31 +30,36 @@ Every table, column, relationship, and choice value the control touches is expos
 
 ## Prerequisites
 
-1. **Azure Maps account.** Create one in the Azure portal and copy a subscription key. The installer supplies their own key through the `azureMapsKey` property. No key ships with the control.
-2. **Web API enabled.** The control uses the Dataverse Web API (declared as a required feature in the manifest).
-3. **Data model.** Install the reference solution from [Releases](../../releases/latest), or provision the tables, columns, relationship, and choice values described below by hand.
-
-The control renders on the **Sales Visit Plan** main form, bound to a text column and reading the current record id from form context.
+1. **Azure Maps account.** Create one in the Azure portal and copy a subscription key. You supply the key through the `azureMapsKey` property; no key ships with the control. If the Maps account has CORS rules, add your Dynamics URL to the allowed origins.
+2. **Model-driven app.** The control reads form context and calls the Dataverse Web API, so canvas apps and Power Pages are not supported.
+3. **Data model.** Import the reference solution, script it with `installer/Install-Schema.ps1`, or map the control onto your own tables.
 
 ---
 
 ## Installation
 
-Two solutions ship independently, so you can take the data model without the control, or bring your own schema and map the control onto it through the configuration properties.
+Download the zips from [Releases](../../releases/latest).
 
 | Solution | Version | What it contains |
 |---|---|---|
-| `SalesVisitPlannerReference` | 1.0.0.0 | The reference data model: the Sales Visit Plan table, the Appointment and Account extension columns, the plan-to-appointment relationship, and the two choice columns with the option values the control expects. |
-| `SalesVisitPlanner` | 1.6.4 | The PCF control itself. |
+| `SalesVisitPlanner` | 1.6.9 | The PCF control. |
+| `SalesVisitPlannerReference` | 1.0.1.0 | The data model, a Sales Visit Plan form that already hosts the control, and a **Sales Visit Planner** model-driven app. |
 
-1. Import `SalesVisitPlannerReference_managed.zip`. Skip this if you already have your own schema.
-2. Import `SalesVisitPlanner_managed.zip`.
-3. Open the **Sales Visit Plan** main form, add the control to a text column, and set `azureMapsKey`.
-4. If you skipped step 1, override the table, column, and relationship names through the [configuration properties](#configuration-properties).
+1. Import `SalesVisitPlanner_managed.zip`.
+2. Import `SalesVisitPlannerReference_managed.zip`. It depends on the control, so the order matters.
+3. Open the Sales Visit Plan **Information** form, select the Planner component, paste your key into **Azure Maps Key**, and publish.
+4. Optional: load a fictional sample day with `installer/Import-SampleData.ps1`.
 
-Both solutions use the `vis` publisher prefix, so a default install needs no property overrides.
+[docs/SETUP.md](docs/SETUP.md) covers all three install paths, the sample data, a smoke test, and rollback.
 
-The reference solution deliberately ships no form. Keeping the schema and the control in separate solutions with no form binding between them means neither depends on the other, and your form stays yours.
+### Installer scripts
+
+| Script | What it does |
+| --- | --- |
+| `installer/Install-Schema.ps1` | Builds the data model from `reference-schema.json` into an unmanaged solution. Idempotent. Use it to change the prefix or names. |
+| `installer/Import-SampleData.ps1` | Loads accounts, contacts, a plan, and visits from `sample-data.json`. Re-runnable; resets what the control writes back, so you can replay a demo. |
+
+Both read their content from JSON. Swap the JSON for a different territory or industry; the scripts stay the same.
 
 ---
 
@@ -68,10 +73,11 @@ The control reads and writes the following schema. Names shown are the reference
 | --- | --- | --- |
 | The visit plan table | `vis_salesvisitplan` | Custom table |
 | Entity set / collection (for OData bind) | `vis_salesvisitplans` | (collection name) |
-| Work-day start | `vis_starttime` | Time of day |
-| Work-day end | `vis_workdayend` | Time of day |
+| Work-day start (date sets the plan day) | `vis_starttime` | Date and time |
+| Work-day end | `vis_workdayend` | Date and time |
 | Plan status | `vis_status` | Choice |
 | Optimized total drive minutes | `vis_new_totaldriveminutes` | Whole number |
+| Placeholder the control is bound to | `vis_plannercanvas` | Text |
 
 ### Appointment table (standard, extended)
 
@@ -99,8 +105,8 @@ The invitation and plan status option values are compiled into the control. The 
 
 | Label | Value |
 | --- | --- |
-| Not sent | 100000000 |
-| Invitation sent | 100000001 |
+| Not Sent | 100000000 |
+| Invitation Sent (shown as an **Invited** pill) | 100000001 |
 | Accepted | 100000002 |
 | Declined | 100000003 |
 
@@ -112,7 +118,7 @@ The invitation and plan status option values are compiled into the control. The 
 | Active | 100000001 | yes |
 | Completed | 100000002 | yes |
 | Cancelled | 100000003 | |
-| In progress | 100000004 | |
+| In Progress | 100000004 | |
 
 The reference solution ships all five so the column is useful for your own process, but the control only branches on Active and Completed.
 
@@ -140,6 +146,7 @@ Set these when you add the control to the form. Every schema property is optiona
 | `planLookupNav` | No | `vis_new_salesvisitplanid_Appointment` | Relationship / navigation property for the lookup. |
 | `lastVisitField` | No | `vis_lastvisitdate` | Last-visit-date column on account. |
 | `geocodeCountrySet` | No | `DK,SE,NO,DE,NL,BE,FR,GB` | Comma-separated ISO country codes to bias geocoding. |
+| `defaultMapCenter` | No | (northern Europe) | Map position for a plan with no geocoded visits: `lat,lon` or `lat,lon,zoom`, for example `55.68,12.57,11`. |
 
 ---
 
@@ -148,7 +155,7 @@ Set these when you add the control to the form. Every schema property is optiona
 The control is built as a reusable engine with the customer context externalized:
 
 - **Core (this control).** Map rendering, route optimization, drive-time timeline, prospect search, and all read/write logic. Unchanged between installs.
-- **Context (your data model).** Table, column, relationship, and choice names, supplied through the configuration properties above and the `SalesVisitPlannerReference` solution.
+- **Context (your data model and story).** Table, column, relationship, and choice names, supplied through the configuration properties above and the `SalesVisitPlannerReference` solution. Schema definition and sample data live in `installer/*.json`.
 
 To reuse the control against a different schema, map each property to your own logical names. No source changes are required.
 

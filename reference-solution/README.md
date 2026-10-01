@@ -1,72 +1,85 @@
 # Sales Visit Planner reference solution
 
-A schema-only Dataverse solution that provisions the data model the control expects. Import it and
-the control works with no configuration beyond `azureMapsKey`.
+A ready-to-run package: the data model the control expects, a main form that already hosts the
+control, and a model-driven app. Import it after the control and you have a working planner once
+you add your Azure Maps key.
 
 | File | Use |
 | --- | --- |
 | `SalesVisitPlannerReference_managed.zip` | Test and production environments. |
-| `SalesVisitPlannerReference.zip` | Development environments, or if you want to edit the schema. |
+| `SalesVisitPlannerReference.zip` | Development environments, or if you want to change the model. |
 
-Version 1.0.0.0, publisher prefix `vis`, publisher `FieldSalesTools`.
+Version 1.0.1.0, publisher `FieldSalesTools`, prefix `vis`.
+
+## Install
+
+1. Import the control solution, `SalesVisitPlanner_managed.zip` (1.6.9 or later).
+2. Import this solution.
+3. Open the Sales Visit Plan **Information** form, select the Planner component, paste your key into
+   **Azure Maps Key**, then save and publish.
+
+The import fails with a missing-dependency error if the control is not there yet. That is expected:
+the form references it. Full steps, sample data, and a smoke test are in
+[docs/SETUP.md](../docs/SETUP.md).
 
 ## What it contains
 
-Fourteen components, and nothing else:
+**Sales Visit Plan** (`vis_salesvisitplan`), a new user-owned table
 
-**Sales Visit Plan** (`vis_salesvisitplan`), a new custom table
+| Column | Type | Purpose |
+| --- | --- | --- |
+| `vis_name` | Text, primary name | Plan name |
+| `vis_starttime` | Date and time | Plan day and work day start |
+| `vis_workdayend` | Date and time | Work day end |
+| `vis_status` | Choice | Draft, Active, Completed, Cancelled, In Progress |
+| `vis_new_totaldriveminutes` | Whole number | Optimized drive time, written by the control |
+| `vis_plannercanvas` | Text | Placeholder the control renders in. Holds no data. |
 
-| Column | Type |
-| --- | --- |
-| `vis_name` | Text, primary name |
-| `vis_starttime` | Date and time, work day start |
-| `vis_workdayend` | Date and time, work day end |
-| `vis_status` | Choice, plan status |
-| `vis_new_totaldriveminutes` | Whole number, cached drive time |
+Plus its **Information** main form with the control bound to `vis_plannercanvas`.
 
-**Appointment**, the standard activity table, extended
+**Appointment**, extended
 
 | Column | Type |
 | --- | --- |
 | `vis_new_ispriority` | Yes/No |
 | `vis_new_visitorder` | Whole number |
-| `vis_new_invitationstatus` | Choice |
-| `vis_new_salesvisitplanid` | Lookup to Sales Visit Plan |
+| `vis_new_invitationstatus` | Choice: Not Sent, Invitation Sent, Accepted, Declined |
+| `vis_new_salesvisitplanid` | Lookup to Sales Visit Plan (relationship `vis_salesvisitplan_appointment`) |
 
-**Account**, the standard table, extended
+**Account**, extended
 
 | Column | Type |
 | --- | --- |
-| `vis_lastvisitdate` | Date and time |
+| `vis_lastvisitdate` | Date and time, read by Territory Insights |
 
-Plus the `vis_salesvisitplan_appointment` relationship.
+**Sales Visit Planner** app (`vis_SalesVisitPlanner`) with Sales Visit Plans, Appointments, and Accounts.
 
-Appointment and Account are included as shells, so importing this solution adds the columns above
-without taking ownership of the standard tables.
+Appointment and Account are included as shells: the import adds the columns above without taking
+ownership of the standard tables or their forms. Choice option values are in
+[SETUP.md section 9](../docs/SETUP.md#9-choice-values).
 
-## What it deliberately does not contain
+## What it does not contain
 
-- **No form.** The control has to sit on a form, but shipping one here would bind the schema
-  solution to the control solution and make neither installable on its own. Add the control to your
-  own form instead, as described in [SETUP.md](../docs/SETUP.md).
-- **No app, no views, no data.** This is a schema contract, not a demo.
-- **No columns the control does not read.** The control's manifest exposes 16 configuration
-  properties; the 12 schema properties among them map exactly onto the columns above.
+- **No Azure Maps key.** The form ships with the key blank. Add yours as an unmanaged change on top.
+- **No data.** Load the fictional sample day with `installer/Import-SampleData.ps1`.
+- **No security role.** Share the app with your own roles.
 
 ## Using your own schema instead
 
-You do not have to import this. Every schema name the control uses is a configuration property with
-a default, so you can point the control at tables and columns you already own by overriding those
-properties on the form. See the configuration table in the [main README](../README.md).
-
-The one thing you cannot rename is the option values on the two choice columns. Those are compiled
-into the control. Match them exactly, or import this solution to get them right.
+Skip this solution, put the control on your own form, and point it at your tables through the
+configuration properties. See [SETUP.md Appendix A](../docs/SETUP.md#appendix-a-using-your-own-schema).
+Or generate the model into your own unmanaged solution with `installer/Install-Schema.ps1`, which
+reads `installer/reference-schema.json`.
 
 ## Rebuilding this solution
 
-It is exported from a Dataverse environment rather than authored by hand:
+Exported from a development environment, then the Azure Maps key is cleared from the form XML
+before release:
 
 ```
-pac solution export --path reference-solution --name SalesVisitPlannerReference --managed false --overwrite
-pac solution export --path reference-solution --name SalesVisitPlannerReference --managed true  --overwrite
+pac solution export --path SalesVisitPlannerReference.zip --name SalesVisitPlannerReference --managed false --overwrite
+pac solution export --path SalesVisitPlannerReference_managed.zip --name SalesVisitPlannerReference --managed true --overwrite
 ```
+
+Before committing, empty every `<azureMapsKey>` element in `customizations.xml` inside both zips,
+and search the zips for your key to confirm it is gone.

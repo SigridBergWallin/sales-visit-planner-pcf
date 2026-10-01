@@ -1,0 +1,201 @@
+{
+    "description":  "Fictional sample day for the Sales Visit Planner reference schema. Swap this file to change the story; the seed script stays the same.",
+    "windowsTimeZone":  "Romance Standard Time",
+    "resetFields":  {
+                        "plan":  {
+                                     "vis_new_totaldriveminutes":  null
+                                 },
+                        "appointment":  {
+                                            "vis_new_visitorder":  null,
+                                            "vis_new_invitationstatus":  null
+                                        }
+                    },
+    "accounts":  [
+                     {
+                         "key":  "valby",
+                         "name":  "Valby Workshop Supply",
+                         "address1_line1":  "Valby Langgade 61",
+                         "address1_postalcode":  "2500",
+                         "address1_city":  "Valby",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.6625,
+                         "address1_longitude":  12.5050,
+                         "telephone1":  "+45 30 00 00 01",
+                         "relativeDates":  {
+                                               "vis_lastvisitdate":  -21
+                                           }
+                     },
+                     {
+                         "key":  "frederiksberg",
+                         "name":  "Frederiksberg Design Studio",
+                         "address1_line1":  "Gammel Kongevej 120",
+                         "address1_postalcode":  "1850",
+                         "address1_city":  "Frederiksberg",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.6770,
+                         "address1_longitude":  12.5450,
+                         "telephone1":  "+45 30 00 00 02",
+                         "relativeDates":  {
+                                               "vis_lastvisitdate":  -64
+                                           }
+                     },
+                     {
+                         "key":  "christianshavn",
+                         "name":  "Christianshavn Marine Parts",
+                         "address1_line1":  "Torvegade 45",
+                         "address1_postalcode":  "1400",
+                         "address1_city":  "Copenhagen",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.6730,
+                         "address1_longitude":  12.5930,
+                         "telephone1":  "+45 30 00 00 03",
+                         "relativeDates":  {
+                                               "vis_lastvisitdate":  -12
+                                           }
+                     },
+                     {
+                         "key":  "amagerbro",
+                         "name":  "Amagerbro Cafe Group",
+                         "address1_line1":  "Amagerbrogade 150",
+                         "address1_postalcode":  "2300",
+                         "address1_city":  "Copenhagen",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.6590,
+                         "address1_longitude":  12.6020,
+                         "telephone1":  "+45 30 00 00 04",
+                         "relativeDates":  {
+                                               "vis_lastvisitdate":  -95
+                                           }
+                     },
+                     {
+                         "key":  "norrebro",
+                         "name":  "Norrebro Bike Works",
+                         "address1_line1":  "Norrebrogade 100",
+                         "address1_postalcode":  "2200",
+                         "address1_city":  "Copenhagen",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.6930,
+                         "address1_longitude":  12.5450,
+                         "telephone1":  "+45 30 00 00 05",
+                         "relativeDates":  {
+                                               "vis_lastvisitdate":  -130
+                                           }
+                     },
+                     {
+                         "key":  "osterbro",
+                         "name":  "Osterbro Dental Clinic",
+                         "address1_line1":  "Osterbrogade 80",
+                         "address1_postalcode":  "2100",
+                         "address1_city":  "Copenhagen",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.7020,
+                         "address1_longitude":  12.5800,
+                         "telephone1":  "+45 30 00 00 06",
+                         "relativeDates":  {
+                                               "vis_lastvisitdate":  -40
+                                           }
+                     },
+                     {
+                         "key":  "vesterbro",
+                         "name":  "Vesterbro Print House",
+                         "address1_line1":  "Istedgade 70",
+                         "address1_postalcode":  "1650",
+                         "address1_city":  "Copenhagen",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.6690,
+                         "address1_longitude":  12.5550,
+                         "telephone1":  "+45 30 00 00 07",
+                         "relativeDates":  {
+                                               "vis_lastvisitdate":  -200
+                                           }
+                     },
+                     {
+                         "key":  "hellerup",
+                         "name":  "Hellerup Wellness Center",
+                         "address1_line1":  "Strandvejen 100",
+                         "address1_postalcode":  "2900",
+                         "address1_city":  "Hellerup",
+                         "address1_country":  "Denmark",
+                         "address1_latitude":  55.7310,
+                         "address1_longitude":  12.5770,
+                         "telephone1":  "+45 30 00 00 08"
+                     }
+                 ],
+    "contacts":  [
+                     {
+                         "account":  "valby",
+                         "firstname":  "Mette",
+                         "lastname":  "Holm",
+                         "jobtitle":  "Purchasing Manager",
+                         "emailaddress1":  "mette.holm@example.com"
+                     },
+                     {
+                         "account":  "frederiksberg",
+                         "firstname":  "Jonas",
+                         "lastname":  "Lund",
+                         "jobtitle":  "Studio Lead",
+                         "emailaddress1":  "jonas.lund@example.com"
+                     },
+                     {
+                         "account":  "christianshavn",
+                         "firstname":  "Sofie",
+                         "lastname":  "Krogh",
+                         "jobtitle":  "Operations Manager",
+                         "emailaddress1":  "sofie.krogh@example.com"
+                     },
+                     {
+                         "account":  "amagerbro",
+                         "firstname":  "Anders",
+                         "lastname":  "Bech",
+                         "jobtitle":  "Owner",
+                         "emailaddress1":  "anders.bech@example.com"
+                     }
+                 ],
+    "plans":  [
+                  {
+                      "key":  "today",
+                      "name":  "Copenhagen route {date}",
+                      "dayOffset":  0,
+                      "times":  {
+                                    "vis_starttime":  "08:00",
+                                    "vis_workdayend":  "17:00"
+                                },
+                      "fields":  {
+                                     "vis_status":  100000001
+                                 }
+                  }
+              ],
+    "appointments":  [
+                         {
+                             "subject":  "Quarterly review",
+                             "plan":  "today",
+                             "account":  "amagerbro",
+                             "start":  "09:00",
+                             "durationMinutes":  45
+                         },
+                         {
+                             "subject":  "Product demo",
+                             "plan":  "today",
+                             "account":  "valby",
+                             "start":  "10:30",
+                             "durationMinutes":  60,
+                             "fields":  {
+                                            "vis_new_ispriority":  true
+                                        }
+                         },
+                         {
+                             "subject":  "Contract renewal",
+                             "plan":  "today",
+                             "account":  "christianshavn",
+                             "start":  "13:00",
+                             "durationMinutes":  45
+                         },
+                         {
+                             "subject":  "New range walkthrough",
+                             "plan":  "today",
+                             "account":  "frederiksberg",
+                             "start":  "14:30",
+                             "durationMinutes":  45
+                         }
+                     ]
+}
